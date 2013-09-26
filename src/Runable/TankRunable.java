@@ -28,9 +28,11 @@ public class TankRunable implements Runnable{
 	@Override
 	public void run(){
 		try{
-			while(tank.move(component.getBounds())){
+			int step = 1;
+			while(tank.move(component.getBounds(), step)){
 				component.repaint();
 				Thread.sleep(Global.DELAY);
+				step++;
 			}
 		}catch(InterruptedException e){
 			e.printStackTrace();

@@ -23,6 +23,7 @@ public class Tank implements ICore{
 	private double speedX;
 	private double speedY;
 	private double angle;
+	private boolean isLive;
 	
 	private boolean direction_north;
 	private boolean direction_south;
@@ -35,10 +36,11 @@ public class Tank implements ICore{
 		this.speedX = sx;
 		this.speedY = sy;
 		this.angle = angle;
+		this.isLive = true;
 	}
 	
 	@Override
-	public boolean move(Rectangle2D panel){
+	public boolean move(Rectangle2D panel, int step){
 		if(direction_north){
 			positionY -= speedY;
 		}
@@ -103,33 +105,32 @@ public class Tank implements ICore{
 	}
 
 	@Override
-	public void setSpeedX(double sx){
-		this.speedX = sx;
+	public void setSpeed(double speed) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	@Override
-	public double getSpeedX(){
-		return this.speedX;
+	public double getSpeed() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
+	@Override
+	public void setAngle(double angle){
+		this.angle = angle;
 	}
 
 	@Override
-	public void setSpeedY(double sy){
-		this.speedY = sy;
-	}
-	
-	@Override
-	public double getSpeedY(){
-		return this.speedY;
-	}
-	
-	public void setAngle(int ang){
-		this.angle = ang;
-	}
-
 	public double getAngle(){
 		return this.angle;
 	}
 
+	@Override
+	public boolean isLive() {
+		return this.isLive;
+	}
+	
 	public void setDirectionNorth(){
 		direction_north = true;
 	}

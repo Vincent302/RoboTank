@@ -28,9 +28,11 @@ public class BulletRunable extends Thread{
 	@Override
 	public void run(){
 		try{
-			while(bullet.move(component.getBounds())){
+			int step = 1;
+			while(bullet.move(component.getBounds(), step)){
 				component.repaint();
 				Thread.sleep(Global.DELAY);
+				step++;
 			}
 		}catch(InterruptedException e){
 			e.printStackTrace();

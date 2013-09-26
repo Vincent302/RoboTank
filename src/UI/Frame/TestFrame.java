@@ -32,13 +32,6 @@ public class TestFrame extends JFrame{
 		component_panel = new ComponentPanel();
 		button_panel = new JPanel();
 		
-		addButton(button_panel, "Add", new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				addBullet();
-				component_panel.requestFocus();
-			}
-		});
-		
 		addButton(button_panel, "Exit", new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				System.exit(0);
@@ -54,13 +47,5 @@ public class TestFrame extends JFrame{
 		JButton new_button = new JButton(name);
 		container.add(new_button);
 		new_button.addActionListener(listener);
-	}
-	
-	public void addBullet(){
-		Bullet bullet = new Bullet(0 ,0, Global.BULLET_SPEED_X, Global.BULLET_SPEED_Y);
-		component_panel.addBullet(bullet);
-		BulletRunable bullet_runable = new BulletRunable(bullet, component_panel);
-		Thread thread = new Thread(bullet_runable);
-		thread.start();
 	}
 }

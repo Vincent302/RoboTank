@@ -48,12 +48,22 @@ public class ComponentPanel extends JPanel{
 		Graphics2D g2 = (Graphics2D)g;
 		
 		//Draw bullets
-		for(Bullet temp_bullet : bullet_list){
-			g2.fill(temp_bullet.getShape());
+		for(int i=0;i<bullet_list.size();i++){
+			if(!bullet_list.get(i).isLive()){
+				bullet_list.remove(i);
+				i--;
+				continue;
+			}
+			g2.fill(bullet_list.get(i).getShape());
 		}
 		//Draw tanks
-		for(Tank temp_tank : tank_list){
-			g2.fill(temp_tank.getShape());
+		for(int i=0;i<tank_list.size();i++){
+			if(!tank_list.get(i).isLive()){
+				tank_list.remove(i);
+				i--;
+				continue;
+			}
+			g2.fill(tank_list.get(i).getShape());
 		}
 		//Draw sight
 		g2.draw(main_tank.getSight());
@@ -73,8 +83,8 @@ public class ComponentPanel extends JPanel{
 		Bullet bullet = new Bullet(
 				main_tank.getX() + Global.TANK_WIDTH / 2 ,
 				main_tank.getY() + Global.TANK_HEIGHT / 2 , 
-				Global.BULLET_SPEED * Math.sin(angle), 
-				-Global.BULLET_SPEED * Math.cos(angle));
+				Global.BULLET_SPEED, 
+				angle);
 		this.addBullet(bullet);
 		BulletRunable bullet_runable = new BulletRunable(bullet, this);
 		Thread thread = new Thread(bullet_runable);

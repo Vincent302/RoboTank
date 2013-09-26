@@ -20,37 +20,30 @@ public class Bullet implements ICore{
 
 	private int positionX;
 	private int positionY;
-	private double speedX;
-	private double speedY;
+	private double speed;
+	private double angle;
+	private boolean isLive;
 	
 	
-	public Bullet(int x, int y, double sx, double sy){
+	public Bullet(int x, int y, double speed, double angle){
 		this.positionX = x;
 		this.positionY = y;
-		this.speedX = sx;
-		this.speedY = sy;
+		this.speed = speed;
+		this.angle = angle;
+		this.isLive = true;
 	}
 	
 	@Override
-	public boolean move(Rectangle2D panel){
-		positionX += speedX;
-		positionY += speedY;
+	public boolean move(Rectangle2D panel, int step){
+		positionX += (speed * step * Math.sin(angle)) / Global.TIME_CONVERSION;
+		positionY -= (speed * step * Math.cos(angle)) / Global.TIME_CONVERSION;
 		
-		if(positionX < panel.getMinX()){
-			positionX = (int)panel.getMinX();
-			speedX = -speedX;
-		}
-		if(positionX > panel.getMaxX() - Global.BULLET_WIDTH){
-			positionX = (int)panel.getMaxX() - Global.BULLET_WIDTH;
-			speedX = -speedX;
-		}
-		if(positionY < panel.getMinY()){
-			positionY = (int)panel.getMinY();
-			speedY = -speedY;
-		}
-		if(positionY > panel.getMaxY() - Global.BULLET_HEIGHT){
-			positionY = (int)panel.getMaxY() - Global.BULLET_HEIGHT;
-			speedY = -speedY;
+		if((positionX < panel.getMinX())
+				|| (positionX > panel.getMaxX() - Global.BULLET_WIDTH)
+				|| (positionY < panel.getMinY())
+				|| (positionY > panel.getMaxY() - Global.BULLET_HEIGHT)){
+			this.isLive = false;
+			return false;
 		}
 		return true;
 	}
@@ -58,6 +51,16 @@ public class Bullet implements ICore{
 	public Ellipse2D getShape(){
 		Ellipse2D bullet_ball = new Ellipse2D.Double(positionX, positionY, Global.BULLET_WIDTH, Global.BULLET_HEIGHT);
 		return bullet_ball;
+	}
+
+	@Override
+	public void setSpeed(double speed) {
+		this.speed = speed;
+	}
+	
+	@Override
+	public double getSpeed() {
+		return this.speed;
 	}
 
 	@Override
@@ -81,22 +84,17 @@ public class Bullet implements ICore{
 	}
 
 	@Override
-	public void setSpeedX(double sx){
-		this.speedX = sx;
+	public void setAngle(double angle) {
+		this.angle = angle;
 	}
 
 	@Override
-	public double getSpeedX(){
-		return this.speedX;
-	}
-	
-	@Override
-	public void setSpeedY(double sy){
-		this.speedY = sy;
+	public double getAngle() {
+		return this.angle;
 	}
 
 	@Override
-	public double getSpeedY(){
-		return this.speedY;
+	public boolean isLive() {
+		return this.isLive;
 	}
 }
