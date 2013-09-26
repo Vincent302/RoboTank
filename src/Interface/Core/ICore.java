@@ -15,12 +15,12 @@ import java.awt.geom.*;
 
 public interface ICore{
 	public boolean move(Rectangle2D panle, int step);
-	public void setX(int x);
-	public void setY(int y);
+	public void setX(double x);
+	public void setY(double y);
 	public void setAngle(double angle);
 	public void setSpeed(double speed);
-	public int getX();
-	public int getY();
+	public double getX();
+	public double getY();
 	public double getAngle();
 	public double getSpeed();
 	public boolean isLive();
