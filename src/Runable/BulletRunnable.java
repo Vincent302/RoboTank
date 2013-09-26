@@ -9,16 +9,33 @@
  * Modified Date:     2013-09-24                  
  * Version:           V0.1                       
  */
-package Test;
+package Runable;
 
-import javax.swing.JFrame;
+import java.awt.*;
+import Util.*;
+import Bean.*;
 
-import UI.Frame.TestFrame;
+public class BulletRunnable implements Runnable{
 
-public class Test_Run {
-	public static void main(String[] args) {
-		TestFrame tf = new TestFrame();
-		tf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		tf.setVisible(true);
+	private Bullet bullet;
+	private Component component;
+
+	public BulletRunnable(Bullet bullet, Component component) {
+		this.bullet = bullet;
+		this.component = component;
+	}
+
+	@Override
+	public void run() {
+		try {
+			int step = 1;
+			while (bullet.move(component.getBounds(), step)) {
+				// component.repaint();
+				Thread.sleep(Global.DELAY);
+				step++;
+			}
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 }

@@ -1,14 +1,14 @@
 /**                          
-* Project:           RoboTank                               
-* Comments:          Tank robot game                                           
-* JDK version used:  JDK1.6                             
-* Namespace:         Bean                              
-* Author��                              Vincent Li             
-* Create Date��                2013-09-24
-* Modified By��                Vincent Li                                     
-* Modified Date:     2013-09-24                  
-* Version:           V0.1                       
-*/
+ * Project:           RoboTank                               
+ * Comments:          Tank robot game                                           
+ * JDK version used:  JDK1.6                             
+ * Namespace:         Bean                              
+ * Author��                              Vincent Li             
+ * Create Date��                2013-09-24
+ * Modified By��                Vincent Li                                     
+ * Modified Date:     2013-09-24                  
+ * Version:           V0.1                       
+ */
 package UI.Panel;
 
 import java.awt.*;
@@ -19,97 +19,56 @@ import Bean.*;
 import Runable.*;
 import Util.*;
 
-public class ComponentPanel extends JPanel{
+public class ComponentPanel extends JPanel {
 
 	private ArrayList<Bullet> bullet_list;
 	private ArrayList<Tank> tank_list;
 	private Tank main_tank;
-	
-	
+
 	public ComponentPanel(){
 		this.bullet_list = new ArrayList<Bullet>();
 		this.tank_list = new ArrayList<Tank>();
 		this.setFocusable(true);
-		
+
+		initPaintCanvas();
 		initMainTank();
 		initKeyListener();
 	}
-	
-	public void addBullet(Bullet bullet){
-		this.bullet_list.add(bullet);
-	}
-	
-	public void addTank(Tank tank){
-		this.tank_list.add(tank);
+
+	private void initPaintCanvas(){
+		PaintRunnable paint_runnable = new PaintRunnable(this);
+		Thread paint_thread = new Thread(paint_runnable);
+		paint_thread.start();
 	}
 
-	public void paintComponent(Graphics g){
-		super.paintComponent(g);
-		Graphics2D g2 = (Graphics2D)g;
-		
-		//Draw bullets
-		for(int i=0;i<bullet_list.size();i++){
-			if(!bullet_list.get(i).isLive()){
-				bullet_list.remove(i);
-				i--;
-				continue;
-			}
-			g2.fill(bullet_list.get(i).getShape());
-		}
-		//Draw tanks
-		for(int i=0;i<tank_list.size();i++){
-			if(!tank_list.get(i).isLive()){
-				tank_list.remove(i);
-				i--;
-				continue;
-			}
-			g2.fill(tank_list.get(i).getShape());
-		}
-		//Draw sight
-		g2.draw(main_tank.getSight());
-		//Draw main tank
-		g2.fill(main_tank.getShape());
-	}
-	
 	private void initMainTank(){
-		this.main_tank = new Tank(0 ,0, Global.TANK_SPEED_X, Global.TANK_SPEED_Y, Global.DEFAULT_SIGHT_ANGLE);
-		TankRunable main_tank_runable = new TankRunable(main_tank, this);
+		this.main_tank = new Tank(400, 300, Global.TANK_SPEED_X,
+				Global.TANK_SPEED_Y, Global.DEFAULT_SIGHT_ANGLE);
+		TankRunnable main_tank_runable = new TankRunnable(main_tank, this);
 		Thread main_tank_thread = new Thread(main_tank_runable);
 		main_tank_thread.start();
 	}
-	
-	private void fireBullet(){
-		double angle = main_tank.getAngle();
-		Bullet bullet = new Bullet(
-				main_tank.getX() + Global.TANK_WIDTH / 2 ,
-				main_tank.getY() + Global.TANK_HEIGHT / 2 , 
-				Global.BULLET_SPEED, 
-				angle);
-		this.addBullet(bullet);
-		BulletRunable bullet_runable = new BulletRunable(bullet, this);
-		Thread thread = new Thread(bullet_runable);
-		thread.start();
-	}
 
-	private void initKeyListener(){
-		this.addKeyListener(new KeyAdapter(){
+	private void initKeyListener() {
+		this.addKeyListener(new KeyAdapter() {
 			@Override
-			public void keyPressed(KeyEvent e){
+			public void keyPressed(KeyEvent e) {
 				keyActionSet(e.getKeyCode());
 			}
 
 			@Override
-			public void keyReleased(KeyEvent e){
+			public void keyReleased(KeyEvent e) {
 				keyActionRelease(e.getKeyCode());
 			}
 
 			@Override
-			public void keyTyped(KeyEvent e){
+			public void keyTyped(KeyEvent e) {
 				keyActionSet(e.getKeyCode());
 			}
-			
-			private void keyActionSet(int key_code){
-				switch(key_code){
+
+			private void keyActionSet(int key_code) {
+				switch (key_code) {
+
 				case KeyEvent.VK_W:
 					main_tank.setDirectionNorth();
 					break;
@@ -123,19 +82,27 @@ public class ComponentPanel extends JPanel{
 					main_tank.setDirectionEast();
 					break;
 				case KeyEvent.VK_Y:
-					main_tank.addAngle();
+					main_tank.setRotatePos();
 					break;
 				case KeyEvent.VK_U:
-					main_tank.reduceAngle();
+					main_tank.setRotateNeg();
 					break;
 				case KeyEvent.VK_I:
-					fireBullet();
+					double angle = main_tank.getAngle();
+					Bullet bullet = new Bullet(main_tank.getX()
+							+ Global.TANK_WIDTH / 2, main_tank.getY()
+							+ Global.TANK_HEIGHT / 2, Global.BULLET_SPEED,
+							angle);
+					TankAction.fire(getThisPanel(), bullet);
+					break;
+				case KeyEvent.VK_ESCAPE:
+					System.exit(0);
 					break;
 				}
 			}
-			
-			private void keyActionRelease(int key_code){
-				switch(key_code){
+
+			private void keyActionRelease(int key_code) {
+				switch (key_code) {
 				case KeyEvent.VK_W:
 					main_tank.releaseDirectionNorth();
 					break;
@@ -148,8 +115,54 @@ public class ComponentPanel extends JPanel{
 				case KeyEvent.VK_D:
 					main_tank.releaseDirectionEast();
 					break;
+				case KeyEvent.VK_Y:
+					main_tank.releaseRotatePos();
+					break;
+				case KeyEvent.VK_U:
+					main_tank.releaseRotateNeg();
+					break;
 				}
 			}
 		});
+	}
+
+	private ComponentPanel getThisPanel() {
+		return this;
+	}
+
+	public void addBullet(Bullet bullet) {
+		this.bullet_list.add(bullet);
+	}
+
+	public void addTank(Tank tank) {
+		this.tank_list.add(tank);
+	}
+
+	public void paintComponent(Graphics g){
+		super.paintComponent(g);
+		Graphics2D g2 = (Graphics2D) g;
+
+		// Draw bullets
+		for (int i = 0; i < bullet_list.size(); i++){
+			if (!bullet_list.get(i).isLive()){
+				bullet_list.remove(i);
+				i--;
+				continue;
+			}
+			g2.fill(bullet_list.get(i).getShape());
+		}
+		// Draw tanks
+		for (int i = 0; i < tank_list.size(); i++){
+			if (!tank_list.get(i).isLive()){
+				tank_list.remove(i);
+				i--;
+				continue;
+			}
+			g2.fill(tank_list.get(i).getShape());
+		}
+		// Draw sight
+		g2.draw(main_tank.getSight());
+		// Draw main tank
+		g2.fill(main_tank.getShape());
 	}
 }

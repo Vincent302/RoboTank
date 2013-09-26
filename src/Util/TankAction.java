@@ -9,28 +9,22 @@
  * Modified Date:     2013-09-24                  
  * Version:           V0.1                       
  */
-package Interface.Core;
+package Util;
 
-import java.awt.geom.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.*;
+import javax.swing.*;
+import Bean.*;
+import Runable.*;
+import UI.Panel.*;
+import Util.*;
 
-public interface ICore {
-	public boolean move(Rectangle2D panle, int step);
-
-	public void setX(double x);
-
-	public void setY(double y);
-
-	public void setAngle(double angle);
-
-	public void setSpeed(double speed);
-
-	public double getX();
-
-	public double getY();
-
-	public double getAngle();
-
-	public double getSpeed();
-
-	public boolean isLive();
+public class TankAction {
+	public static void fire(ComponentPanel cp, Bullet bullet){
+		cp.addBullet(bullet);
+		BulletRunnable bullet_runable = new BulletRunnable(bullet, cp);
+		Thread thread = new Thread(bullet_runable);
+		thread.start();
+	}
 }

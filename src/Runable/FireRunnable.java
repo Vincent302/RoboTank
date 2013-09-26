@@ -9,28 +9,30 @@
  * Modified Date:     2013-09-24                  
  * Version:           V0.1                       
  */
-package Interface.Core;
+package Runable;
 
-import java.awt.geom.*;
+import java.awt.*;
 
-public interface ICore {
-	public boolean move(Rectangle2D panle, int step);
+import Util.*;
+import Bean.*;
 
-	public void setX(double x);
+public class FireRunnable implements Runnable{
 
-	public void setY(double y);
+	private Component component;
 
-	public void setAngle(double angle);
-
-	public void setSpeed(double speed);
-
-	public double getX();
-
-	public double getY();
-
-	public double getAngle();
-
-	public double getSpeed();
-
-	public boolean isLive();
+	public FireRunnable(Component component){
+		this.component = component;
+	}
+	
+	@Override
+	public void run(){
+		try {
+			while(true){
+				component.repaint();
+				Thread.sleep(Global.FIRE_DELAY);
+			}
+		}catch(InterruptedException e){
+			e.printStackTrace();
+		}
+	}
 }
