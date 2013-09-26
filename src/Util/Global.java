@@ -16,6 +16,7 @@ public class Global {
 	
 	public static final double BULLET_SPEED_X = 5;
 	public static final double BULLET_SPEED_Y = 5;
+	public static final double BULLET_SPEED = 5;
 	public static final double TANK_SPEED_X = 1;
 	public static final double TANK_SPEED_Y = 1;
 	public static final double TANK_ANGLE_SPEED = 5 * Math.PI / 180;

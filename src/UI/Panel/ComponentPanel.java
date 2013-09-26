@@ -67,6 +67,19 @@ public class ComponentPanel extends JPanel{
 		Thread main_tank_thread = new Thread(main_tank_runable);
 		main_tank_thread.start();
 	}
+	
+	private void fireBullet(){
+		double angle = main_tank.getAngle();
+		Bullet bullet = new Bullet(
+				main_tank.getX() + Global.TANK_WIDTH / 2 ,
+				main_tank.getY() + Global.TANK_HEIGHT / 2 , 
+				Global.BULLET_SPEED * Math.sin(angle), 
+				-Global.BULLET_SPEED * Math.cos(angle));
+		this.addBullet(bullet);
+		BulletRunable bullet_runable = new BulletRunable(bullet, this);
+		Thread thread = new Thread(bullet_runable);
+		thread.start();
+	}
 
 	private void initKeyListener(){
 		this.addKeyListener(new KeyAdapter(){
@@ -104,6 +117,9 @@ public class ComponentPanel extends JPanel{
 					break;
 				case KeyEvent.VK_U:
 					main_tank.reduceAngle();
+					break;
+				case KeyEvent.VK_I:
+					fireBullet();
 					break;
 				}
 			}
