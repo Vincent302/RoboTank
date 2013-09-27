@@ -9,27 +9,27 @@
  * Modified Date:     2013-09-24                  
  * Version:           V0.1                       
  */
-package Runable;
+package Runnable;
 
 import java.awt.*;
 import Util.*;
 import Bean.*;
 
-public class BulletRunnable implements Runnable{
+public class TankRunnable implements Runnable {
 
-	private Bullet bullet;
+	private Tank tank;
 	private Component component;
 
-	public BulletRunnable(Bullet bullet, Component component) {
-		this.bullet = bullet;
+	public TankRunnable(Tank tank, Component component) {
+		this.tank = tank;
 		this.component = component;
 	}
 
 	@Override
-	public void run() {
+	public void run(){
 		try {
 			int step = 1;
-			while (bullet.move(component.getBounds(), step)) {
+			while (tank.move(component.getBounds(), step)) {
 				// component.repaint();
 				Thread.sleep(Global.DELAY);
 				step++;

@@ -7,7 +7,7 @@ public class Global {
 
 	public static final int DELAY = 1;
 	public static final int REPAINT_DELAY = 1;
-	public static final int FIRE_DELAY = 1;
+	public static final int FIRE_DELAY = 400;
 	public static final int TIME_CONVERSION = 20;
 
 	public static final int FRAME_WIDTH = 900;

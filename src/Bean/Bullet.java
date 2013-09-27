@@ -22,14 +22,14 @@ public class Bullet implements ICore {
 	private double positionY;
 	private double speed;
 	private double angle;
-	private boolean isLive;
+	private boolean is_live;
 
 	public Bullet(double x, double y, double speed, double angle) {
 		this.positionX = x;
 		this.positionY = y;
 		this.speed = speed;
 		this.angle = angle;
-		this.isLive = true;
+		this.is_live = true;
 	}
 
 	@Override
@@ -41,7 +41,7 @@ public class Bullet implements ICore {
 				|| (positionX > panel.getMaxX() - Global.BULLET_WIDTH)
 				|| (positionY < panel.getMinY())
 				|| (positionY > panel.getMaxY() - Global.BULLET_HEIGHT)) {
-			this.isLive = false;
+			this.is_live = false;
 			return false;
 		}
 		return true;
@@ -95,6 +95,6 @@ public class Bullet implements ICore {
 
 	@Override
 	public boolean isLive() {
-		return this.isLive;
+		return this.is_live;
 	}
 }

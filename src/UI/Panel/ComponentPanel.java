@@ -11,19 +11,28 @@
  */
 package UI.Panel;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
-import javax.swing.*;
-import Bean.*;
-import Runable.*;
-import Util.*;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+
+import javax.swing.JPanel;
+
+import Bean.Bullet;
+import Bean.Tank;
+import Runnable.FireRunnable;
+import Runnable.PaintRunnable;
+import Runnable.TankRunnable;
+import Util.Global;
+import Util.TankAction;
 
 public class ComponentPanel extends JPanel {
 
 	private ArrayList<Bullet> bullet_list;
 	private ArrayList<Tank> tank_list;
 	private Tank main_tank;
+	private Thread main_fire_thread;
 
 	public ComponentPanel(){
 		this.bullet_list = new ArrayList<Bullet>();
@@ -32,6 +41,7 @@ public class ComponentPanel extends JPanel {
 
 		initPaintCanvas();
 		initMainTank();
+		//startFireEngine();
 		initKeyListener();
 	}
 
@@ -40,54 +50,61 @@ public class ComponentPanel extends JPanel {
 		Thread paint_thread = new Thread(paint_runnable);
 		paint_thread.start();
 	}
+	
+	private void startFireEngine(){
+		FireRunnable fire_runnable = new FireRunnable(this, main_tank);
+		this.main_fire_thread = new Thread(fire_runnable);
+		main_fire_thread.start();
+	}
 
 	private void initMainTank(){
 		this.main_tank = new Tank(400, 300, Global.TANK_SPEED_X,
 				Global.TANK_SPEED_Y, Global.DEFAULT_SIGHT_ANGLE);
-		TankRunnable main_tank_runable = new TankRunnable(main_tank, this);
-		Thread main_tank_thread = new Thread(main_tank_runable);
+		TankRunnable main_tank_runnable = new TankRunnable(main_tank, this);
+		Thread main_tank_thread = new Thread(main_tank_runnable);
 		main_tank_thread.start();
 	}
 
 	private void initKeyListener() {
+		
 		this.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-				keyActionSet(e.getKeyCode());
+				keyActionPressed(e.getKeyChar());
 			}
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				keyActionRelease(e.getKeyCode());
+				keyActionRelease(e.getKeyChar());
 			}
 
 			@Override
 			public void keyTyped(KeyEvent e) {
-				keyActionSet(e.getKeyCode());
+				//TODO:
 			}
-
-			private void keyActionSet(int key_code) {
-				switch (key_code) {
-
-				case KeyEvent.VK_W:
+			
+			private void keyActionPressed(int key_char) {
+				switch (key_char) {
+				case 'w':
 					main_tank.setDirectionNorth();
 					break;
-				case KeyEvent.VK_S:
+				case 's':
 					main_tank.setDirectionSouth();
 					break;
-				case KeyEvent.VK_A:
+				case 'a':
 					main_tank.setDirectionWest();
 					break;
-				case KeyEvent.VK_D:
+				case 'd':
 					main_tank.setDirectionEast();
 					break;
-				case KeyEvent.VK_Y:
+				case 'y':
 					main_tank.setRotatePos();
 					break;
-				case KeyEvent.VK_U:
+				case 'u':
 					main_tank.setRotateNeg();
 					break;
-				case KeyEvent.VK_I:
+					/*
+				case 'i':
 					double angle = main_tank.getAngle();
 					Bullet bullet = new Bullet(main_tank.getX()
 							+ Global.TANK_WIDTH / 2, main_tank.getY()
@@ -95,39 +112,43 @@ public class ComponentPanel extends JPanel {
 							angle);
 					TankAction.fire(getThisPanel(), bullet);
 					break;
+					*/
+				case 'i':
+					main_tank.setOnFire();
+					startFireEngine();
+					break;
 				case KeyEvent.VK_ESCAPE:
 					System.exit(0);
 					break;
 				}
 			}
 
-			private void keyActionRelease(int key_code) {
-				switch (key_code) {
-				case KeyEvent.VK_W:
+			private void keyActionRelease(int key_char) {
+				switch (key_char) {
+				case 'w':
 					main_tank.releaseDirectionNorth();
 					break;
-				case KeyEvent.VK_S:
+				case 's':
 					main_tank.releaseDirectionSouth();
 					break;
-				case KeyEvent.VK_A:
+				case 'a':
 					main_tank.releaseDirectionWest();
 					break;
-				case KeyEvent.VK_D:
+				case 'd':
 					main_tank.releaseDirectionEast();
 					break;
-				case KeyEvent.VK_Y:
+				case 'y':
 					main_tank.releaseRotatePos();
 					break;
-				case KeyEvent.VK_U:
+				case 'u':
 					main_tank.releaseRotateNeg();
+					break;
+				case 'i':
+					main_tank.releaseOnFire();
 					break;
 				}
 			}
 		});
-	}
-
-	private ComponentPanel getThisPanel() {
-		return this;
 	}
 
 	public void addBullet(Bullet bullet) {

@@ -16,7 +16,7 @@ import java.awt.event.*;
 
 import javax.swing.*;
 import Bean.*;
-import Runable.*;
+import Runnable.*;
 import UI.Panel.*;
 import Util.*;
 

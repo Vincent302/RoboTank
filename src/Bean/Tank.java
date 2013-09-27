@@ -14,7 +14,7 @@ package Bean;
 import java.awt.geom.*;
 
 import Interface.Core.*;
-import Runable.BulletRunnable;
+import Runnable.BulletRunnable;
 import Util.Global;
 
 public class Tank implements ICore {
@@ -24,7 +24,8 @@ public class Tank implements ICore {
 	private double speedX;
 	private double speedY;
 	private double angle;
-	private boolean isLive;
+	private boolean is_on_fire;
+	private boolean is_live;
 
 	private boolean direction_north;
 	private boolean direction_south;
@@ -39,7 +40,8 @@ public class Tank implements ICore {
 		this.speedX = sx;
 		this.speedY = sy;
 		this.angle = angle;
-		this.isLive = true;
+		this.is_on_fire =false;
+		this.is_live = true;
 		this.direction_north = false;
 		this.direction_south = false;
 		this.direction_west = false;
@@ -146,7 +148,11 @@ public class Tank implements ICore {
 
 	@Override
 	public boolean isLive() {
-		return this.isLive;
+		return this.is_live;
+	}
+	
+	public boolean isOnFire(){
+		return this.is_on_fire;
 	}
 
 	public void setDirectionNorth() {
@@ -172,6 +178,10 @@ public class Tank implements ICore {
 	public void setRotateNeg() {
 		sight_rotate_neg = true;
 	}
+	
+	public void setOnFire() {
+		this.is_on_fire = true;
+	}
 
 	public void releaseDirectionNorth() {
 		direction_north = false;
@@ -195,5 +205,9 @@ public class Tank implements ICore {
 
 	public void releaseRotateNeg() {
 		sight_rotate_neg = false;
+	}
+	
+	public void releaseOnFire(){
+		this.is_on_fire = false;
 	}
 }

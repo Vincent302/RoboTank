@@ -11,20 +11,15 @@
  */
 package Util;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
-import javax.swing.*;
 import Bean.*;
-import Runable.*;
+import Runnable.*;
 import UI.Panel.*;
-import Util.*;
 
 public class TankAction {
 	public static void fire(ComponentPanel cp, Bullet bullet){
 		cp.addBullet(bullet);
-		BulletRunnable bullet_runable = new BulletRunnable(bullet, cp);
-		Thread thread = new Thread(bullet_runable);
+		BulletRunnable bullet_runnable = new BulletRunnable(bullet, cp);
+		Thread thread = new Thread(bullet_runnable);
 		thread.start();
 	}
 }

@@ -9,29 +9,27 @@
  * Modified Date:     2013-09-24                  
  * Version:           V0.1                       
  */
-package Runable;
+package Runnable;
 
 import java.awt.*;
-
 import Util.*;
-import Bean.*;
 
-public class FireRunnable implements Runnable{
+public class PaintRunnable implements Runnable {
 
 	private Component component;
 
-	public FireRunnable(Component component){
+	public PaintRunnable(Component component) {
 		this.component = component;
 	}
-	
+
 	@Override
 	public void run(){
 		try {
-			while(true){
+			while (true){
 				component.repaint();
-				Thread.sleep(Global.FIRE_DELAY);
+				Thread.sleep(Global.REPAINT_DELAY);
 			}
-		}catch(InterruptedException e){
+		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 	}
