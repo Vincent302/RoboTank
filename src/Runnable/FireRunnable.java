@@ -38,8 +38,6 @@ public class FireRunnable implements Runnable{
 							angle);
 					TankAction.fire((ComponentPanel)component, bullet);
 					component.repaint();
-				}else{
-					break;
 				}
 				Thread.sleep(Global.FIRE_DELAY);
 			}

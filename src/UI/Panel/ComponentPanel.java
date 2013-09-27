@@ -41,7 +41,7 @@ public class ComponentPanel extends JPanel {
 
 		initPaintCanvas();
 		initMainTank();
-		//startFireEngine();
+		initFireEngine();
 		initKeyListener();
 	}
 
@@ -51,7 +51,7 @@ public class ComponentPanel extends JPanel {
 		paint_thread.start();
 	}
 	
-	private void startFireEngine(){
+	private void initFireEngine(){
 		FireRunnable fire_runnable = new FireRunnable(this, main_tank);
 		this.main_fire_thread = new Thread(fire_runnable);
 		main_fire_thread.start();
@@ -63,6 +63,10 @@ public class ComponentPanel extends JPanel {
 		TankRunnable main_tank_runnable = new TankRunnable(main_tank, this);
 		Thread main_tank_thread = new Thread(main_tank_runnable);
 		main_tank_thread.start();
+	}
+	
+	private ComponentPanel getThisPanel() {
+		return this;
 	}
 
 	private void initKeyListener() {
@@ -80,7 +84,7 @@ public class ComponentPanel extends JPanel {
 
 			@Override
 			public void keyTyped(KeyEvent e) {
-				//TODO:
+				
 			}
 			
 			private void keyActionPressed(int key_char) {
@@ -103,26 +107,15 @@ public class ComponentPanel extends JPanel {
 				case 'u':
 					main_tank.setRotateNeg();
 					break;
-					/*
-				case 'i':
-					double angle = main_tank.getAngle();
-					Bullet bullet = new Bullet(main_tank.getX()
-							+ Global.TANK_WIDTH / 2, main_tank.getY()
-							+ Global.TANK_HEIGHT / 2, Global.BULLET_SPEED,
-							angle);
-					TankAction.fire(getThisPanel(), bullet);
-					break;
-					*/
 				case 'i':
 					main_tank.setOnFire();
-					startFireEngine();
 					break;
 				case KeyEvent.VK_ESCAPE:
 					System.exit(0);
 					break;
 				}
 			}
-
+			
 			private void keyActionRelease(int key_char) {
 				switch (key_char) {
 				case 'w':
@@ -145,6 +138,15 @@ public class ComponentPanel extends JPanel {
 					break;
 				case 'i':
 					main_tank.releaseOnFire();
+					double angle = main_tank.getAngle();
+					Bullet bullet = new Bullet(main_tank.getX()
+							+ Global.TANK_WIDTH / 2, main_tank.getY()
+							+ Global.TANK_HEIGHT / 2, Global.BULLET_SPEED,
+							angle);
+					TankAction.fire(getThisPanel(), bullet);
+					break;
+				case KeyEvent.VK_ESCAPE:
+					System.exit(0);
 					break;
 				}
 			}
