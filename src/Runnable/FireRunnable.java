@@ -3,18 +3,18 @@
  * Comments:          Tank robot game                                           
  * JDK version used:  JDK1.6                             
  * Namespace:         Bean                              
- * Author��                              Vincent Li             
- * Create Date��                2013-09-24
- * Modified By��                Vincent Li                                     
- * Modified Date:     2013-09-24                  
- * Version:           V0.1                       
+ * Author:            Vincent Li             
+ * Create Date:       2013-09-24 
  */
 package Runnable;
 
-import java.awt.*;
-import UI.Panel.*;
-import Util.*;
-import Bean.*;
+import java.awt.Component;
+
+import Action.TankAction;
+import Bean.Bullet;
+import Bean.Tank;
+import UI.Panel.ComponentPanel;
+import Util.Global;
 
 public class FireRunnable implements Runnable{
 
@@ -31,11 +31,7 @@ public class FireRunnable implements Runnable{
 		try {
 			while(true){
 				if(tank.isOnFire()){
-					double angle = tank.getAngle();
-					Bullet bullet = new Bullet(tank.getX()
-							+ Global.TANK_WIDTH / 2, tank.getY()
-							+ Global.TANK_HEIGHT / 2, Global.BULLET_SPEED,
-							angle);
+					Bullet bullet = tank.fire();
 					TankAction.fire((ComponentPanel)component, bullet);
 					component.repaint();
 				}

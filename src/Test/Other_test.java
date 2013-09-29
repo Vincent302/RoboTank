@@ -1,8 +1,12 @@
 package Test;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.Dimension;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 /**
  *在JPanel中监听键盘事件 By [url=http://eastsun.javaeye.com]Eastsun[/url]

@@ -3,11 +3,8 @@
  * Comments:          Tank robot game                                           
  * JDK version used:  JDK1.6                             
  * Namespace:         Bean                              
- * Author��                              Vincent Li             
- * Create Date��                2013-09-24
- * Modified By��                Vincent Li                                     
- * Modified Date:     2013-09-24                  
- * Version:           V0.1                       
+ * Author:            Vincent Li             
+ * Create Date:       2013-09-24 
  */
 package UI.Panel;
 
@@ -19,13 +16,13 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
+import Action.TankAction;
 import Bean.Bullet;
 import Bean.Tank;
 import Runnable.FireRunnable;
 import Runnable.PaintRunnable;
 import Runnable.TankRunnable;
 import Util.Global;
-import Util.TankAction;
 
 public class ComponentPanel extends JPanel {
 
@@ -117,7 +114,7 @@ public class ComponentPanel extends JPanel {
 			}
 			
 			private void keyActionRelease(int key_char) {
-				switch (key_char) {
+				switch (key_char){
 				case 'w':
 					main_tank.releaseDirectionNorth();
 					break;
@@ -138,11 +135,7 @@ public class ComponentPanel extends JPanel {
 					break;
 				case 'i':
 					main_tank.releaseOnFire();
-					double angle = main_tank.getAngle();
-					Bullet bullet = new Bullet(main_tank.getX()
-							+ Global.TANK_WIDTH / 2, main_tank.getY()
-							+ Global.TANK_HEIGHT / 2, Global.BULLET_SPEED,
-							angle);
+					Bullet bullet = main_tank.fire();
 					TankAction.fire(getThisPanel(), bullet);
 					break;
 				case KeyEvent.VK_ESCAPE:

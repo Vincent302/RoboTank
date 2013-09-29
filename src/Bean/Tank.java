@@ -3,18 +3,15 @@
  * Comments:          Tank robot game                                           
  * JDK version used:  JDK1.6                             
  * Namespace:         Bean                              
- * Author��                              Vincent Li             
- * Create Date��                2013-09-24
- * Modified By��                Vincent Li                                     
- * Modified Date:     2013-09-24                  
- * Version:           V0.1                       
+ * Author:            Vincent Li             
+ * Create Date:       2013-09-24 
  */
 package Bean;
 
-import java.awt.geom.*;
+import java.awt.geom.Line2D;
+import java.awt.geom.Rectangle2D;
 
-import Interface.Core.*;
-import Runnable.BulletRunnable;
+import Interface.Core.ICore;
 import Util.Global;
 
 public class Tank implements ICore {
@@ -51,7 +48,7 @@ public class Tank implements ICore {
 	}
 
 	@Override
-	public boolean move(Rectangle2D panel, int step){
+	public boolean move(Rectangle2D panel){
 		if (direction_north) {
 			positionY -= speedY;
 		}
@@ -102,6 +99,15 @@ public class Tank implements ICore {
 						+ Global.TANK_HEIGHT / 2 - 100 * Math.cos(angle));
 
 		return sight_line;
+	}
+	
+	public Bullet fire() {
+		Bullet bullet = new Bullet(
+				positionX + Global.TANK_WIDTH / 2, 
+				positionY + Global.TANK_HEIGHT / 2, 
+				Global.BULLET_SPEED,
+				angle);
+		return bullet;
 	}
 
 	@Override

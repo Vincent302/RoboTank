@@ -1,3 +1,11 @@
+/**                          
+ * Project:           RoboTank                               
+ * Comments:          Tank robot game                                           
+ * JDK version used:  JDK1.6                             
+ * Namespace:         Bean                              
+ * Author:            Vincent Li             
+ * Create Date:       2013-09-24 
+ */
 package Util;
 
 public class Global {
@@ -19,7 +27,7 @@ public class Global {
 
 	public static final double BULLET_SPEED_X = 5;
 	public static final double BULLET_SPEED_Y = 5;
-	public static final double BULLET_SPEED = 0.01;
+	public static final double BULLET_SPEED = 0.5;
 	public static final double TANK_SPEED_X = 0.3;
 	public static final double TANK_SPEED_Y = 0.3;
 	public static final double TANK_ANGLE_SPEED = 0.1 * Math.PI / 180;

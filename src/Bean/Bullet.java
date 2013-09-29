@@ -3,17 +3,15 @@
  * Comments:          Tank robot game                                           
  * JDK version used:  JDK1.6                             
  * Namespace:         Bean                              
- * Author��                              Vincent Li             
- * Create Date��                2013-09-24
- * Modified By��                Vincent Li                                     
- * Modified Date:     2013-09-24                  
- * Version:           V0.1                       
+ * Author:            Vincent Li             
+ * Create Date:       2013-09-24 
  */
 package Bean;
 
-import java.awt.geom.*;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
 
-import Interface.Core.*;
+import Interface.Core.ICore;
 import Util.Global;
 
 public class Bullet implements ICore {
@@ -33,9 +31,9 @@ public class Bullet implements ICore {
 	}
 
 	@Override
-	public boolean move(Rectangle2D panel, int step) {
-		positionX += (speed * step * Math.sin(angle)) / Global.TIME_CONVERSION;
-		positionY -= (speed * step * Math.cos(angle)) / Global.TIME_CONVERSION;
+	public boolean move(Rectangle2D panel) {
+		positionX += speed * Math.sin(angle);
+		positionY -= speed * Math.cos(angle);
 
 		if ((positionX < panel.getMinX())
 				|| (positionX > panel.getMaxX() - Global.BULLET_WIDTH)
@@ -48,8 +46,11 @@ public class Bullet implements ICore {
 	}
 
 	public Ellipse2D getShape() {
-		Ellipse2D bullet_ball = new Ellipse2D.Double(positionX, positionY,
-				Global.BULLET_WIDTH, Global.BULLET_HEIGHT);
+		Ellipse2D bullet_ball = new Ellipse2D.Double(
+				positionX - Global.BULLET_WIDTH / 2, 
+				positionY - Global.BULLET_HEIGHT / 2,
+				Global.BULLET_WIDTH, 
+				Global.BULLET_HEIGHT);
 		return bullet_ball;
 	}
 
