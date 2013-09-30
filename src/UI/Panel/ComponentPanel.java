@@ -12,12 +12,14 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.geom.Line2D;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
 import Action.TankAction;
 import Bean.Bullet;
+import Bean.Dot;
 import Bean.Tank;
 import Runnable.FireRunnable;
 import Runnable.PaintRunnable;
@@ -28,12 +30,14 @@ public class ComponentPanel extends JPanel {
 
 	private ArrayList<Bullet> bullet_list;
 	private ArrayList<Tank> tank_list;
+	private ArrayList<Dot> dot_list;
 	private Tank main_tank;
 	private Thread main_fire_thread;
 
 	public ComponentPanel(){
 		this.bullet_list = new ArrayList<Bullet>();
 		this.tank_list = new ArrayList<Tank>();
+		this.dot_list = new ArrayList<Dot>();
 		this.setFocusable(true);
 
 		initPaintCanvas();
@@ -153,6 +157,22 @@ public class ComponentPanel extends JPanel {
 	public void addTank(Tank tank) {
 		this.tank_list.add(tank);
 	}
+	
+	public void addDot(Dot dot) {
+		this.dot_list.add(dot);
+	}
+	
+	public void removeBullet(Bullet bullet) {
+		this.bullet_list.remove(bullet);
+	}
+
+	public void removeTank(Tank tank) {
+		this.tank_list.remove(tank);
+	}
+	
+	public void removeDot(Dot dot) {
+		this.dot_list.remove(dot);
+	}
 
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
@@ -161,7 +181,7 @@ public class ComponentPanel extends JPanel {
 		// Draw bullets
 		for (int i = 0; i < bullet_list.size(); i++){
 			if (!bullet_list.get(i).isLive()){
-				bullet_list.remove(i);
+				removeBullet(bullet_list.get(i));
 				i--;
 				continue;
 			}
@@ -170,11 +190,22 @@ public class ComponentPanel extends JPanel {
 		// Draw tanks
 		for (int i = 0; i < tank_list.size(); i++){
 			if (!tank_list.get(i).isLive()){
-				tank_list.remove(i);
+				removeTank(tank_list.get(i));
 				i--;
 				continue;
 			}
 			g2.fill(tank_list.get(i).getShape());
+		}
+		//Draw exploding dot
+		for (int i = 0; i < dot_list.size(); i++){
+			if(dot_list.get(i) != null){
+				if (!dot_list.get(i).isLive()){
+					removeDot(dot_list.get(i));
+					i--;
+					continue;
+				}
+				g2.draw(dot_list.get(i).getShape());
+			}
 		}
 		// Draw sight
 		g2.draw(main_tank.getSight());

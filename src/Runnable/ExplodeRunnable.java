@@ -10,29 +10,27 @@ package Runnable;
 
 import java.awt.Component;
 
+import Action.BulletAction;
 import Bean.Bullet;
+import UI.Panel.ComponentPanel;
 import Util.Global;
 
-public class BulletRunnable implements Runnable{
-
+public class ExplodeRunnable implements Runnable{
 	private Bullet bullet;
 	private Component component;
 
-	public BulletRunnable(Bullet bullet, Component component) {
+	public ExplodeRunnable(Bullet bullet, Component component) {
 		this.bullet = bullet;
 		this.component = component;
 	}
-
+	
 	@Override
 	public void run() {
 		try {
-			while (bullet.move(component.getBounds())) {
-				Thread.sleep(Global.DELAY);
+			for(int i=0;i<Global.EXPLODE_ROUND;i++){
+				BulletAction.explode((ComponentPanel)component, bullet);
+				Thread.sleep(Global.EXPLODE_ROUND_DELAY);
 			}
-			//BulletAction.explode((ComponentPanel)component, bullet);
-			ExplodeRunnable explode_runnable = new ExplodeRunnable(bullet, component);
-			Thread explode_thread = new Thread(explode_runnable);
-			explode_thread.start();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

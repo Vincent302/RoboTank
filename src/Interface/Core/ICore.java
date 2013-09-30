@@ -11,7 +11,7 @@ package Interface.Core;
 import java.awt.geom.*;
 
 public interface ICore {
-	public boolean move(Rectangle2D panle);
+	public boolean move(Rectangle2D panel);
 
 	public void setX(double x);
 

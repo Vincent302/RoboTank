@@ -13,7 +13,7 @@ import Runnable.BulletRunnable;
 import UI.Panel.ComponentPanel;
 
 public class TankAction {
-	public static void fire(ComponentPanel cp, Bullet bullet){
+	public static void fire(ComponentPanel cp, Bullet bullet) {
 		cp.addBullet(bullet);
 		BulletRunnable bullet_runnable = new BulletRunnable(bullet, cp);
 		Thread thread = new Thread(bullet_runnable);
