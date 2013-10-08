@@ -8,6 +8,9 @@
  */
 package Action;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import Bean.Bullet;
 import Bean.Dot;
 import Runnable.DotRunnable;
@@ -19,13 +22,15 @@ public class BulletAction {
 		double positionX = bullet.getX();
 		double positionY = bullet.getY();
 		
+		List<Dot> dots = new ArrayList<Dot>();
 		for(int i=0;i<Global.EXPLODE_DOT_NUMBER;i++){
 			double random_angle = Math.random() * 2 * Math.PI;
 			Dot dot = new Dot(positionX, positionY, random_angle);
 			cp.addDot(dot);
-			DotRunnable dot_runnable = new DotRunnable(dot, cp);
-			Thread dot_thread = new Thread(dot_runnable);
-			dot_thread.start();
+			dots.add(dot);
 		}
+		DotRunnable dot_runnable = new DotRunnable(dots, cp);
+		Thread dot_thread = new Thread(dot_runnable);
+		dot_thread.start();
 	}
 }

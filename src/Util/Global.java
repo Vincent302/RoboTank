@@ -30,13 +30,13 @@ public class Global {
 	public static final double BULLET_SPEED_Y = 5;
 	public static final double BULLET_SPEED = 0.5;
 	public static final double EXPLODE_SPEED = 1;
-	public static final double EXPLODE_SPEED_ACCELERATE = -0.005;
+	public static final double EXPLODE_SPEED_ACCELERATE = -0.012;
 	public static final double TANK_SPEED_X = 0.3;
 	public static final double TANK_SPEED_Y = 0.3;
 	public static final double TANK_ANGLE_SPEED = 0.1 * Math.PI / 180;
 	
 	public static final int EXPLODE_DOT_NUMBER = 120;
-	public static final int EXPLODE_ROUND = 2;
+	public static final int EXPLODE_ROUND = 3;
 
 	public static final double DEFAULT_SIGHT_ANGLE = 135 * Math.PI / 180;
 
