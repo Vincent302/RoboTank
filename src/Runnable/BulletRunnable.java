@@ -8,7 +8,6 @@
  */
 package Runnable;
 
-import java.awt.Component;
 import java.util.ArrayList;
 
 import Bean.Bullet;
