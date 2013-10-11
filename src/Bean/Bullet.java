@@ -18,6 +18,8 @@ import Util.Global;
 
 public class Bullet implements ICore {
 
+	private double _ID;
+	
 	private double positionX;
 	private double positionY;
 	private double speed;
@@ -25,7 +27,9 @@ public class Bullet implements ICore {
 	private boolean is_live;
 	private int power;
 
-	public Bullet(double x, double y, double speed, double angle, int power) {
+	public Bullet(double x, double y, double speed, double angle, int power, double id) {
+		this._ID = id;
+		
 		this.positionX = x;
 		this.positionY = y;
 		this.speed = speed;
@@ -57,6 +61,11 @@ public class Bullet implements ICore {
 				Global.BULLET_WIDTH, 
 				Global.BULLET_HEIGHT);
 		return bullet_ball;
+	}
+
+	@Override
+	public double getID() {
+		return this._ID;
 	}
 
 	@Override
@@ -102,5 +111,10 @@ public class Bullet implements ICore {
 	@Override
 	public boolean isLive() {
 		return this.is_live;
+	}
+	
+	@Override
+	public void killed() {
+		this.is_live = false;
 	}
 }

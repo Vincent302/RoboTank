@@ -16,6 +16,8 @@ import Util.Global;
 
 public class Dot implements ICore{
 	
+	private double _ID;
+	
 	private double positionX;
 	private double positionY;
 	private double speed;
@@ -23,6 +25,8 @@ public class Dot implements ICore{
 	private boolean is_live;
 	
 	public Dot(double x, double y, double angle) {
+		this._ID = Math.random();
+		
 		this.positionX = x;
 		this.positionY = y;
 		this.speed = Global.EXPLODE_SPEED;
@@ -50,6 +54,11 @@ public class Dot implements ICore{
 	public Line2D getShape() {
 		Line2D explode_point = new Line2D.Double(positionX, positionY, positionX, positionY);
 		return explode_point;
+	}
+
+	@Override
+	public double getID() {
+		return this._ID;
 	}
 	
 	@Override
@@ -95,5 +104,10 @@ public class Dot implements ICore{
 	@Override
 	public boolean isLive() {
 		return this.is_live;
+	}
+
+	@Override
+	public void killed() {
+		this.is_live = false;
 	}
 }

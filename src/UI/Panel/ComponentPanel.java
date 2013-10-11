@@ -66,6 +66,7 @@ public class ComponentPanel extends JPanel {
 		TankRunnable main_tank_runnable = new TankRunnable(main_tank, this);
 		Thread main_tank_thread = new Thread(main_tank_runnable);
 		main_tank_thread.start();
+		this.addTank(main_tank);
 	}
 	
 	private ComponentPanel getThisPanel() {
@@ -185,6 +186,7 @@ public class ComponentPanel extends JPanel {
 		Graphics2D g2 = (Graphics2D) g;
 
 		// Draw bullets
+		g2.setColor(Color.GRAY);
 		for (int i = 0; i < bullet_list.size(); i++){
 			if (!bullet_list.get(i).isLive()){
 				removeBullet(bullet_list.get(i));
@@ -193,7 +195,9 @@ public class ComponentPanel extends JPanel {
 			}
 			g2.fill(bullet_list.get(i).getShape());
 		}
+		
 		// Draw tanks
+		g2.setColor(Color.GRAY);
 		for (int i = 0; i < tank_list.size(); i++){
 			if (!tank_list.get(i).isLive()){
 				removeTank(tank_list.get(i));
@@ -201,7 +205,9 @@ public class ComponentPanel extends JPanel {
 				continue;
 			}
 			g2.fill(tank_list.get(i).getShape());
+			g2.draw(tank_list.get(i).getSight());
 		}
+		
 		//Draw exploding dot
 		g2.setColor(Color.YELLOW);
 		for (int i = 0; i < dot_list.size(); i++){
@@ -214,11 +220,5 @@ public class ComponentPanel extends JPanel {
 				g2.draw(dot_list.get(i).getShape());
 			}
 		}
-		// Draw sight
-		g2.setColor(Color.GRAY);
-		g2.draw(main_tank.getSight());
-		// Draw main tank
-		g2.setColor(Color.GRAY);
-		g2.fill(main_tank.getShape());
 	}
 }

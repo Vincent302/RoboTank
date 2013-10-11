@@ -34,10 +34,14 @@ L1:			while (bullet.move(component.getBounds())) {
 				double position_y = bullet.getY();
 				ArrayList<Tank> tank_list = component.getTankList();
 				for(Tank tank : tank_list){
+					if(tank.getID() == bullet.getID()){
+						continue;
+					}
 					if((position_x >= tank.getX()) &&
 							(position_x <= tank.getX() + Global.TANK_WIDTH) &&
 							(position_y >= tank.getY()) &&
 							(position_y <= tank.getY() + Global.TANK_HEIGHT)){
+						bullet.killed();
 						break L1;
 					}
 				}

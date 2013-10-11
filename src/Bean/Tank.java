@@ -15,6 +15,8 @@ import Interface.Core.ICore;
 import Util.Global;
 
 public class Tank implements ICore {
+	
+	private double _ID;
 
 	private double positionX;
 	private double positionY;
@@ -34,6 +36,8 @@ public class Tank implements ICore {
 	private boolean sight_rotate_neg;
 
 	public Tank(double x, double y, double sx, double sy, double angle, int blood, int power){
+		this._ID = Math.random();
+		
 		this.positionX = x;
 		this.positionY = y;
 		this.speedX = sx;
@@ -109,8 +113,14 @@ public class Tank implements ICore {
 				positionY + Global.TANK_HEIGHT / 2, 
 				Global.BULLET_SPEED,
 				angle,
-				power);
+				power,
+				_ID);
 		return bullet;
+	}
+
+	@Override
+	public double getID() {
+		return this._ID;
 	}
 
 	@Override
@@ -218,5 +228,10 @@ public class Tank implements ICore {
 	
 	public void releaseOnFire(){
 		this.is_on_fire = false;
+	}
+
+	@Override
+	public void killed() {
+		this.is_live = false;
 	}
 }

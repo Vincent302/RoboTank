@@ -28,6 +28,10 @@ public interface ICore {
 	public double getAngle();
 
 	public double getSpeed();
+	
+	public double getID();
 
 	public boolean isLive();
+	
+	public void killed();
 }
