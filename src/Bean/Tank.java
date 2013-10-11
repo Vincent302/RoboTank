@@ -43,8 +43,10 @@ public class Tank implements ICore {
 		this.speedX = sx;
 		this.speedY = sy;
 		this.angle = angle;
+		this.blood = blood;
 		this.is_on_fire =false;
 		this.is_live = true;
+		this.power = power;
 		this.direction_north = false;
 		this.direction_south = false;
 		this.direction_west = false;
@@ -55,6 +57,13 @@ public class Tank implements ICore {
 
 	@Override
 	public boolean move(Rectangle2D panel){
+		//If killed
+		if(this.blood <= 0){
+			this.is_live = false;
+			return false;
+		}
+		
+		//Move
 		if (direction_north) {
 			positionY -= speedY;
 		}
@@ -169,6 +178,11 @@ public class Tank implements ICore {
 	public boolean isLive() {
 		return this.is_live;
 	}
+
+	@Override
+	public void killed() {
+		this.is_live = false;
+	}
 	
 	public boolean isOnFire(){
 		return this.is_on_fire;
@@ -229,9 +243,8 @@ public class Tank implements ICore {
 	public void releaseOnFire(){
 		this.is_on_fire = false;
 	}
-
-	@Override
-	public void killed() {
-		this.is_live = false;
+	
+	public void reduceBlood(int attack_power){
+		this.blood -= attack_power;
 	}
 }

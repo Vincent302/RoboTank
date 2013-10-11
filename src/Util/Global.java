@@ -21,6 +21,8 @@ public class Global {
 
 	public static final int FRAME_WIDTH = 900;
 	public static final int FRAME_HEIGHT = 700;
+	public static final int COMPONENT_PANEL_WIDTH = 900;
+	public static final int COMPONENT_PANEL_HEIGHT = 600;
 	public static final int BULLET_WIDTH = 5;
 	public static final int BULLET_HEIGHT = 5;
 	public static final int TANK_WIDTH = 30;
@@ -42,5 +44,7 @@ public class Global {
 	
 	public static final int DEFAULT_BLOOD = 100;
 	public static final int DEFAULT_POWER = 50;
+	
+	public static final int ROBOTANK_NUMBER = 3;
 
 }

@@ -41,6 +41,7 @@ L1:			while (bullet.move(component.getBounds())) {
 							(position_x <= tank.getX() + Global.TANK_WIDTH) &&
 							(position_y >= tank.getY()) &&
 							(position_y <= tank.getY() + Global.TANK_HEIGHT)){
+						tank.reduceBlood(bullet.getPower());
 						bullet.killed();
 						break L1;
 					}

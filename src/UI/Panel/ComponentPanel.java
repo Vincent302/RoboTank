@@ -43,6 +43,7 @@ public class ComponentPanel extends JPanel {
 
 		initPaintCanvas();
 		initMainTank();
+		initRoboTank();
 		initFireEngine();
 		initKeyListener();
 	}
@@ -67,6 +68,22 @@ public class ComponentPanel extends JPanel {
 		Thread main_tank_thread = new Thread(main_tank_runnable);
 		main_tank_thread.start();
 		this.addTank(main_tank);
+	}
+	
+	private void initRoboTank(){
+		for(int i=0;i<Global.ROBOTANK_NUMBER;i++){
+			Tank robo_tank = new Tank(
+					(Global.COMPONENT_PANEL_WIDTH - Global.TANK_WIDTH) * Math.random(), 
+					(Global.COMPONENT_PANEL_HEIGHT - Global.TANK_HEIGHT) * Math.random(), 
+					Global.TANK_SPEED_X,
+					Global.TANK_SPEED_Y, Global.DEFAULT_SIGHT_ANGLE,
+					Global.DEFAULT_BLOOD, Global.DEFAULT_POWER);
+			TankRunnable robo_tank_runnable = new TankRunnable(robo_tank, this);
+			Thread robo_tank_thread = new Thread(robo_tank_runnable);
+			robo_tank_thread.start();
+			this.addTank(robo_tank);
+		}
+		
 	}
 	
 	private ComponentPanel getThisPanel() {

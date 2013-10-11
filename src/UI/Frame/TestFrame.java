@@ -22,6 +22,8 @@ import Util.Global;
 
 public class TestFrame extends JFrame {
 
+	private static final long serialVersionUID = 3901835535531770684L;
+	
 	private ComponentPanel component_panel;
 	private JPanel button_panel;
 

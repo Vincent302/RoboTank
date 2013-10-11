@@ -10,10 +10,8 @@ package Bean;
 
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
 
 import Interface.Core.ICore;
-import UI.Panel.ComponentPanel;
 import Util.Global;
 
 public class Bullet implements ICore {
@@ -116,5 +114,9 @@ public class Bullet implements ICore {
 	@Override
 	public void killed() {
 		this.is_live = false;
+	}
+	
+	public int getPower(){
+		return this.power;
 	}
 }
