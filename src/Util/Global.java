@@ -43,8 +43,13 @@ public class Global {
 	public static final double DEFAULT_SIGHT_ANGLE = 135 * Math.PI / 180;
 	
 	public static final int DEFAULT_BLOOD = 100;
-	public static final int DEFAULT_POWER = 50;
+	public static final int DEFAULT_POWER = 10;
 	
 	public static final int ROBOTANK_NUMBER = 3;
+	
+	//Blood
+	public static final int BLOODBAR_ABOVE = 5;
+	public static final int BLOODBAR_HEIGHT = 2;
+	public static final int BLOODBAR_WIDTH = 30;
 
 }

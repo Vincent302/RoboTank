@@ -105,6 +105,15 @@ public class Tank implements ICore {
 				Global.TANK_WIDTH, Global.TANK_HEIGHT);
 		return tank_body;
 	}
+	
+	public Rectangle2D getBloodBar() {
+		Rectangle2D blood_bar = new Rectangle2D.Double(
+				positionX, 
+				positionY - Global.BLOODBAR_ABOVE,
+				Global.BLOODBAR_WIDTH * this.blood / Global.DEFAULT_BLOOD, 
+				Global.BLOODBAR_HEIGHT);
+		return blood_bar;
+	}
 
 	public Line2D getSight(){
 		Line2D sight_line = new Line2D.Double(

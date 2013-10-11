@@ -214,15 +214,18 @@ public class ComponentPanel extends JPanel {
 		}
 		
 		// Draw tanks
-		g2.setColor(Color.GRAY);
 		for (int i = 0; i < tank_list.size(); i++){
 			if (!tank_list.get(i).isLive()){
 				removeTank(tank_list.get(i));
 				i--;
 				continue;
 			}
+			g2.setColor(Color.GRAY);
 			g2.fill(tank_list.get(i).getShape());
 			g2.draw(tank_list.get(i).getSight());
+			//Draw blood
+			g2.setColor(new Color(150, 0, 0));
+			g2.fill(tank_list.get(i).getBloodBar());
 		}
 		
 		//Draw exploding dot
