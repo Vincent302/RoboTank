@@ -23,6 +23,8 @@ public class Tank implements ICore {
 	private double angle;
 	private boolean is_on_fire;
 	private boolean is_live;
+	private int blood;
+	private int power;
 
 	private boolean direction_north;
 	private boolean direction_south;
@@ -31,7 +33,7 @@ public class Tank implements ICore {
 	private boolean sight_rotate_pos;
 	private boolean sight_rotate_neg;
 
-	public Tank(double x, double y, double sx, double sy, double angle){
+	public Tank(double x, double y, double sx, double sy, double angle, int blood, int power){
 		this.positionX = x;
 		this.positionY = y;
 		this.speedX = sx;
@@ -106,7 +108,8 @@ public class Tank implements ICore {
 				positionX + Global.TANK_WIDTH / 2, 
 				positionY + Global.TANK_HEIGHT / 2, 
 				Global.BULLET_SPEED,
-				angle);
+				angle,
+				power);
 		return bullet;
 	}
 

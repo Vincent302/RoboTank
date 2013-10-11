@@ -9,16 +9,19 @@
 package Runnable;
 
 import java.awt.Component;
+import java.util.ArrayList;
 
 import Bean.Bullet;
+import Bean.Tank;
+import UI.Panel.ComponentPanel;
 import Util.Global;
 
 public class BulletRunnable implements Runnable{
 
 	private Bullet bullet;
-	private Component component;
+	private ComponentPanel component;
 
-	public BulletRunnable(Bullet bullet, Component component) {
+	public BulletRunnable(Bullet bullet, ComponentPanel component) {
 		this.bullet = bullet;
 		this.component = component;
 	}
@@ -26,7 +29,18 @@ public class BulletRunnable implements Runnable{
 	@Override
 	public void run() {
 		try {
-			while (bullet.move(component.getBounds())) {
+L1:			while (bullet.move(component.getBounds())) {
+				double position_x = bullet.getX();
+				double position_y = bullet.getY();
+				ArrayList<Tank> tank_list = component.getTankList();
+				for(Tank tank : tank_list){
+					if((position_x >= tank.getX()) &&
+							(position_x <= tank.getX() + Global.TANK_WIDTH) &&
+							(position_y >= tank.getY()) &&
+							(position_y <= tank.getY() + Global.TANK_HEIGHT)){
+						break L1;
+					}
+				}
 				Thread.sleep(Global.DELAY);
 			}
 			//BulletAction.explode((ComponentPanel)component, bullet);

@@ -8,11 +8,11 @@
  */
 package UI.Panel;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.geom.Line2D;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
@@ -39,6 +39,7 @@ public class ComponentPanel extends JPanel {
 		this.tank_list = new ArrayList<Tank>();
 		this.dot_list = new ArrayList<Dot>();
 		this.setFocusable(true);
+		this.setBackground(Color.BLACK);
 
 		initPaintCanvas();
 		initMainTank();
@@ -60,7 +61,8 @@ public class ComponentPanel extends JPanel {
 
 	private void initMainTank(){
 		this.main_tank = new Tank(400, 300, Global.TANK_SPEED_X,
-				Global.TANK_SPEED_Y, Global.DEFAULT_SIGHT_ANGLE);
+				Global.TANK_SPEED_Y, Global.DEFAULT_SIGHT_ANGLE,
+				Global.DEFAULT_BLOOD, Global.DEFAULT_POWER);
 		TankRunnable main_tank_runnable = new TankRunnable(main_tank, this);
 		Thread main_tank_thread = new Thread(main_tank_runnable);
 		main_tank_thread.start();
@@ -173,6 +175,10 @@ public class ComponentPanel extends JPanel {
 	public void removeDot(Dot dot) {
 		this.dot_list.remove(dot);
 	}
+	
+	public ArrayList<Tank> getTankList(){
+		return this.tank_list;
+	}
 
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
@@ -197,6 +203,7 @@ public class ComponentPanel extends JPanel {
 			g2.fill(tank_list.get(i).getShape());
 		}
 		//Draw exploding dot
+		g2.setColor(Color.YELLOW);
 		for (int i = 0; i < dot_list.size(); i++){
 			if(dot_list.get(i) != null){
 				if (!dot_list.get(i).isLive()){
@@ -208,8 +215,10 @@ public class ComponentPanel extends JPanel {
 			}
 		}
 		// Draw sight
+		g2.setColor(Color.GRAY);
 		g2.draw(main_tank.getSight());
 		// Draw main tank
+		g2.setColor(Color.GRAY);
 		g2.fill(main_tank.getShape());
 	}
 }

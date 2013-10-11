@@ -10,8 +10,10 @@ package Bean;
 
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
 import Interface.Core.ICore;
+import UI.Panel.ComponentPanel;
 import Util.Global;
 
 public class Bullet implements ICore {
@@ -21,13 +23,15 @@ public class Bullet implements ICore {
 	private double speed;
 	private double angle;
 	private boolean is_live;
+	private int power;
 
-	public Bullet(double x, double y, double speed, double angle) {
+	public Bullet(double x, double y, double speed, double angle, int power) {
 		this.positionX = x;
 		this.positionY = y;
 		this.speed = speed;
 		this.angle = angle;
 		this.is_live = true;
+		this.power = power;
 	}
 
 	@Override
@@ -42,6 +46,7 @@ public class Bullet implements ICore {
 			this.is_live = false;
 			return false;
 		}
+		
 		return true;
 	}
 
