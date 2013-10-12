@@ -28,6 +28,8 @@ import Util.Global;
 
 public class ComponentPanel extends JPanel {
 
+	private static final long serialVersionUID = -8037419449780220542L;
+	
 	private ArrayList<Bullet> bullet_list;
 	private ArrayList<Tank> tank_list;
 	private ArrayList<Dot> dot_list;

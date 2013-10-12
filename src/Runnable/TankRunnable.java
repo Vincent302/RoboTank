@@ -33,20 +33,20 @@ L1:			while (true) {
 				double position_y = tank.getY();
 				ArrayList<Tank> tank_list = component.getTankList();
 				
-				for(Tank temp_tank : tank_list){
-					if(temp_tank.getID() == this.tank.getID()){
+				int tank_list_size = tank_list.size();
+				for(int i=0;i<tank_list_size;i++){
+					if(tank_list.get(i).getID() == this.tank.getID()){
 						continue;
 					}
-					if((position_x >= temp_tank.getX() - Global.TANK_WIDTH) &&
-							(position_x <= temp_tank.getX() + Global.TANK_WIDTH) &&
-							(position_y >= temp_tank.getY() - Global.TANK_HEIGHT) &&
-							(position_y <= temp_tank.getY() + Global.TANK_HEIGHT)){
+					if((position_x >= tank_list.get(i).getX() - Global.TANK_WIDTH) &&
+							(position_x <= tank_list.get(i).getX() + Global.TANK_WIDTH) &&
+							(position_y >= tank_list.get(i).getY() - Global.TANK_HEIGHT) &&
+							(position_y <= tank_list.get(i).getY() + Global.TANK_HEIGHT)){
 						tank.moveBack(component.getBounds());
 						Thread.sleep(Global.DELAY);
 						continue L1;
 					}
 				}
-				
 				Thread.sleep(Global.DELAY);
 			}
 		} catch (InterruptedException e) {

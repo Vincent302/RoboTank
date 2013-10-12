@@ -32,15 +32,17 @@ L1:			while (bullet.move(component.getBounds())) {
 				double position_x = bullet.getX();
 				double position_y = bullet.getY();
 				ArrayList<Tank> tank_list = component.getTankList();
-				for(Tank tank : tank_list){
-					if(tank.getID() == bullet.getID()){
+				
+				int tank_list_size = tank_list.size();
+				for(int i=0;i<tank_list_size;i++){
+					if(tank_list.get(i).getID() == bullet.getID()){
 						continue;
 					}
-					if((position_x >= tank.getX()) &&
-							(position_x <= tank.getX() + Global.TANK_WIDTH) &&
-							(position_y >= tank.getY()) &&
-							(position_y <= tank.getY() + Global.TANK_HEIGHT)){
-						tank.reduceBlood(bullet.getPower());
+					if((position_x >= tank_list.get(i).getX()) &&
+							(position_x <= tank_list.get(i).getX() + Global.TANK_WIDTH) &&
+							(position_y >= tank_list.get(i).getY()) &&
+							(position_y <= tank_list.get(i).getY() + Global.TANK_HEIGHT)){
+						tank_list.get(i).reduceBlood(bullet.getPower());
 						bullet.killed();
 						break L1;
 					}
