@@ -69,31 +69,54 @@ public class Tank implements ICore {
 		
 		//Robert move
 		if(this.is_robert){
-			double main_tank_position_x = panel.getMainTank().getX();
-			double main_tank_position_y = panel.getMainTank().getY();
-			
-			double des_angle = Math.atan((main_tank_position_x - this.positionX) / (this.positionY - main_tank_position_y));
-			des_angle -= this.angle;
-			if((main_tank_position_x - this.positionX) > 0){
-				des_angle -= Math.PI;
-			}
-			while(des_angle < 0){
-				des_angle += (Math.PI * 2);
-			}
-			des_angle -= Math.PI;
-			if(des_angle <= 0){
-				sight_rotate_pos = true;
-				sight_rotate_neg = false;
-			}else{
-				sight_rotate_pos = false;
-				sight_rotate_neg = true;
-			}
-			if(Math.abs(des_angle) < Global.DEFAULT_ROBERT_FIRE_FANGLE){
-				this.is_on_fire = true;
+			if(panel.getMainTank().isLive()){
+				double main_tank_position_x = panel.getMainTank().getX();
+				double main_tank_position_y = panel.getMainTank().getY();
+				boolean pos_x = main_tank_position_x >= this.positionX;
+				boolean pos_y = main_tank_position_y <= this.positionY;
+				double des_angle = 0;
+				
+				if(pos_x && pos_y){
+					des_angle = Math.atan((this.positionY - main_tank_position_y) / (main_tank_position_x - this.positionX));
+				}else if(!pos_x && pos_y){
+					des_angle = Math.PI - Math.atan((this.positionY - main_tank_position_y) / -(main_tank_position_x - this.positionX));
+				}else if(!pos_x && !pos_y){
+					des_angle = Math.atan((this.positionY - main_tank_position_y) / (main_tank_position_x - this.positionX)) + Math.PI;
+				}else if(pos_x && !pos_y){
+					des_angle = 2 * Math.PI - Math.atan(-(this.positionY - main_tank_position_y) / (main_tank_position_x - this.positionX));
+				}
+				
+				des_angle -= this.angle;
+				
+				if(des_angle > 0){
+					if(des_angle > Math.PI){
+						sight_rotate_pos = false;
+						sight_rotate_neg = true;
+					}else{
+						sight_rotate_pos = true;
+						sight_rotate_neg = false;
+					}
+				}else{
+					if(des_angle < -Math.PI){
+						sight_rotate_pos = true;
+						sight_rotate_neg = false;
+					}else{
+						sight_rotate_pos = false;
+						sight_rotate_neg = true;
+					}
+				}
+				
+				
+				if(Math.abs(des_angle) < Global.DEFAULT_ROBERT_FIRE_FANGLE){
+					this.is_on_fire = true;
+				}else{
+					this.is_on_fire = false;
+				}
 			}else{
 				this.is_on_fire = false;
+				sight_rotate_pos = false;
+				sight_rotate_neg = false;
 			}
-			
 		}
 		
 		//Check obstacle
@@ -153,9 +176,15 @@ public class Tank implements ICore {
 		}
 		if (sight_rotate_pos) {
 			angle += Global.TANK_ANGLE_SPEED;
+			if(angle >= (2 * Math.PI)){
+				angle -= (2 * Math.PI);
+			}
 		}
 		if (sight_rotate_neg) {
 			angle -= Global.TANK_ANGLE_SPEED;
+			if(angle < 0){
+				angle += (2 * Math.PI);
+			}
 		}
 		
 		//Match to bounds

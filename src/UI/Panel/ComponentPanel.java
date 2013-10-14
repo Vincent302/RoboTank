@@ -57,9 +57,14 @@ public class ComponentPanel extends JPanel {
 	}
 	
 	private void initFireEngine(){
-		FireRunnable fire_runnable = new FireRunnable(this, main_tank);
-		this.main_fire_thread = new Thread(fire_runnable);
-		main_fire_thread.start();
+		//FireRunnable fire_runnable = new FireRunnable(this, main_tank);
+		//this.main_fire_thread = new Thread(fire_runnable);
+		//main_fire_thread.start();
+		for(Tank fire_tank : this.tank_list){
+			FireRunnable fire_runnable = new FireRunnable(this, fire_tank);
+			Thread fire_thread = new Thread(fire_runnable);
+			fire_thread.start();
+		}
 	}
 
 	private void initMainTank(){

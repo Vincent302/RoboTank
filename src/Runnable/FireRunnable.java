@@ -30,10 +30,12 @@ public class FireRunnable implements Runnable{
 	public void run(){
 		try {
 			while(true){
+				if(!tank.isLive()){
+					break;
+				}
 				if(tank.isOnFire()){
 					Bullet bullet = tank.fire();
 					TankAction.fire((ComponentPanel)component, bullet);
-					component.repaint();
 				}
 				Thread.sleep(Global.FIRE_DELAY);
 			}

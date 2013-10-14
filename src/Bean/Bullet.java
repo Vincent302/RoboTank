@@ -39,8 +39,8 @@ public class Bullet implements ICore {
 
 	@Override
 	public boolean move(ComponentPanel panel) {
-		positionX += speed * Math.sin(angle);
-		positionY -= speed * Math.cos(angle);
+		positionX += speed * Math.cos(angle);
+		positionY -= speed * Math.sin(angle);
 
 		if ((positionX < panel.getBounds().getMinX())
 				|| (positionX > panel.getBounds().getMaxX() - Global.BULLET_WIDTH)

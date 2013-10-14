@@ -25,7 +25,7 @@ public class TankRunnable implements Runnable {
 	@Override
 	public void run(){
 		try {
-			while (tank.move(component)) {
+			while (tank.move(component) && tank.isLive()) {
 				Thread.sleep(Global.DELAY);
 			}
 		} catch (InterruptedException e) {
