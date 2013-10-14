@@ -29,6 +29,7 @@ public class Tank implements ICore {
 	private boolean is_live;
 	private int blood;
 	private int power;
+	private boolean is_robert;
 
 	private boolean direction_north;
 	private boolean direction_south;
@@ -37,7 +38,7 @@ public class Tank implements ICore {
 	private boolean sight_rotate_pos;
 	private boolean sight_rotate_neg;
 
-	public Tank(double x, double y, double sx, double sy, double angle, int blood, int power){
+	public Tank(double x, double y, double sx, double sy, double angle, int blood, int power, boolean is_robert){
 		this._ID = Math.random();
 		
 		this.positionX = x;
@@ -49,6 +50,7 @@ public class Tank implements ICore {
 		this.is_on_fire =false;
 		this.is_live = true;
 		this.power = power;
+		this.is_robert = is_robert;
 		this.direction_north = false;
 		this.direction_south = false;
 		this.direction_west = false;
@@ -63,6 +65,35 @@ public class Tank implements ICore {
 		if(this.blood <= 0){
 			this.is_live = false;
 			return false;
+		}
+		
+		//Robert move
+		if(this.is_robert){
+			double main_tank_position_x = panel.getMainTank().getX();
+			double main_tank_position_y = panel.getMainTank().getY();
+			
+			double des_angle = Math.atan((main_tank_position_x - this.positionX) / (this.positionY - main_tank_position_y));
+			des_angle -= this.angle;
+			if((main_tank_position_x - this.positionX) > 0){
+				des_angle -= Math.PI;
+			}
+			while(des_angle < 0){
+				des_angle += (Math.PI * 2);
+			}
+			des_angle -= Math.PI;
+			if(des_angle <= 0){
+				sight_rotate_pos = true;
+				sight_rotate_neg = false;
+			}else{
+				sight_rotate_pos = false;
+				sight_rotate_neg = true;
+			}
+			if(Math.abs(des_angle) < Global.DEFAULT_ROBERT_FIRE_FANGLE){
+				this.is_on_fire = true;
+			}else{
+				this.is_on_fire = false;
+			}
+			
 		}
 		
 		//Check obstacle
@@ -162,10 +193,10 @@ public class Tank implements ICore {
 
 	public Line2D getSight(){
 		Line2D sight_line = new Line2D.Double(
-				positionX + Global.TANK_WIDTH / 2, positionY
-						+ Global.TANK_HEIGHT / 2, positionX + Global.TANK_WIDTH
-						/ 2 + 100 * Math.sin(angle), positionY
-						+ Global.TANK_HEIGHT / 2 - 100 * Math.cos(angle));
+				positionX + Global.TANK_WIDTH / 2, 
+				positionY + Global.TANK_HEIGHT / 2, 
+				positionX + Global.TANK_WIDTH / 2 + 100 * Math.cos(angle), 
+				positionY + Global.TANK_HEIGHT / 2 - 100 * Math.sin(angle));
 
 		return sight_line;
 	}

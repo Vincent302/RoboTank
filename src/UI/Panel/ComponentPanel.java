@@ -65,7 +65,8 @@ public class ComponentPanel extends JPanel {
 	private void initMainTank(){
 		this.main_tank = new Tank(400, 300, Global.TANK_SPEED_X,
 				Global.TANK_SPEED_Y, Global.DEFAULT_SIGHT_ANGLE,
-				Global.DEFAULT_BLOOD, Global.DEFAULT_POWER);
+				Global.DEFAULT_BLOOD, Global.DEFAULT_POWER,
+				false);
 		TankRunnable main_tank_runnable = new TankRunnable(main_tank, this);
 		Thread main_tank_thread = new Thread(main_tank_runnable);
 		main_tank_thread.start();
@@ -73,13 +74,31 @@ public class ComponentPanel extends JPanel {
 	}
 	
 	private void initRoboTank(){
-		for(int i=0;i<Global.ROBOTANK_NUMBER;i++){
+L1:		for(int i=0;i<Global.ROBOTANK_NUMBER;i++){
+			double temp_position_x = (Global.COMPONENT_PANEL_WIDTH - Global.TANK_WIDTH) * Math.random();
+			double temp_position_y = (Global.COMPONENT_PANEL_HEIGHT - Global.TANK_HEIGHT) * Math.random();
+
+			//Check tank overlapping
+			for(int k=0;k<this.tank_list.size();k++){
+				double exist_position_x = this.tank_list.get(k).getX();
+				double exist_position_y = this.tank_list.get(k).getY();
+				if((temp_position_x > exist_position_x - Global.TANK_WIDTH) 
+						&& (temp_position_x < exist_position_x + Global.TANK_WIDTH)
+						&& (temp_position_y > exist_position_y - Global.TANK_HEIGHT)
+						&& (temp_position_y < exist_position_y + Global.TANK_HEIGHT)){
+					i--;
+					continue L1;
+				}
+			}
+			
+			//Add tank
 			Tank robo_tank = new Tank(
-					(Global.COMPONENT_PANEL_WIDTH - Global.TANK_WIDTH) * Math.random(), 
-					(Global.COMPONENT_PANEL_HEIGHT - Global.TANK_HEIGHT) * Math.random(), 
+					temp_position_x, 
+					temp_position_y, 
 					Global.TANK_SPEED_X,
 					Global.TANK_SPEED_Y, Global.DEFAULT_SIGHT_ANGLE,
-					Global.DEFAULT_BLOOD, Global.DEFAULT_POWER);
+					Global.DEFAULT_BLOOD, Global.DEFAULT_POWER,
+					true);
 			TankRunnable robo_tank_runnable = new TankRunnable(robo_tank, this);
 			Thread robo_tank_thread = new Thread(robo_tank_runnable);
 			robo_tank_thread.start();
@@ -198,6 +217,10 @@ public class ComponentPanel extends JPanel {
 	
 	public ArrayList<Tank> getTankList(){
 		return this.tank_list;
+	}
+	
+	public Tank getMainTank(){
+		return this.main_tank;
 	}
 
 	public void paintComponent(Graphics g){
