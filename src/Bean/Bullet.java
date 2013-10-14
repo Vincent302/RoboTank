@@ -9,9 +9,10 @@
 package Bean;
 
 import java.awt.geom.Ellipse2D;
-import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
 import Interface.Core.ICore;
+import UI.Panel.ComponentPanel;
 import Util.Global;
 
 public class Bullet implements ICore {
@@ -37,18 +38,33 @@ public class Bullet implements ICore {
 	}
 
 	@Override
-	public boolean move(Rectangle2D panel) {
+	public boolean move(ComponentPanel panel) {
 		positionX += speed * Math.sin(angle);
 		positionY -= speed * Math.cos(angle);
 
-		if ((positionX < panel.getMinX())
-				|| (positionX > panel.getMaxX() - Global.BULLET_WIDTH)
-				|| (positionY < panel.getMinY())
-				|| (positionY > panel.getMaxY() - Global.BULLET_HEIGHT)) {
+		if ((positionX < panel.getBounds().getMinX())
+				|| (positionX > panel.getBounds().getMaxX() - Global.BULLET_WIDTH)
+				|| (positionY < panel.getBounds().getMinY())
+				|| (positionY > panel.getBounds().getMaxY() - Global.BULLET_HEIGHT)) {
 			this.is_live = false;
 			return false;
 		}
 		
+		ArrayList<Tank> tank_list = panel.getTankList();
+		int tank_list_size = tank_list.size();
+		for(int i=0;i<tank_list_size;i++){
+			if(tank_list.get(i).getID() == _ID){
+				continue;
+			}
+			if((positionX >= tank_list.get(i).getX()) &&
+					(positionX <= tank_list.get(i).getX() + Global.TANK_WIDTH) &&
+					(positionY >= tank_list.get(i).getY()) &&
+					(positionY <= tank_list.get(i).getY() + Global.TANK_HEIGHT)){
+				tank_list.get(i).reduceBlood(this.power);
+				this.is_live = false;
+				return false;
+			}
+		}
 		return true;
 	}
 

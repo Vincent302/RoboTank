@@ -51,5 +51,8 @@ public class Global {
 	public static final int BLOODBAR_ABOVE = 5;
 	public static final int BLOODBAR_HEIGHT = 2;
 	public static final int BLOODBAR_WIDTH = 30;
+	
+	//Deviation
+	public static final double DEVIATION = 2.0;
 
 }

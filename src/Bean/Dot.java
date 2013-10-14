@@ -9,9 +9,9 @@
 package Bean;
 
 import java.awt.geom.Line2D;
-import java.awt.geom.Rectangle2D;
 
 import Interface.Core.ICore;
+import UI.Panel.ComponentPanel;
 import Util.Global;
 
 public class Dot implements ICore{
@@ -35,15 +35,15 @@ public class Dot implements ICore{
 	}
 
 	@Override
-	public boolean move(Rectangle2D panel) {
+	public boolean move(ComponentPanel panel) {
 		speed += Global.EXPLODE_SPEED_ACCELERATE;
 		positionX += speed * Math.sin(angle);
 		positionY -= speed * Math.cos(angle);
 		
-		if ((positionX < panel.getMinX())
-				|| (positionX > panel.getMaxX() - Global.BULLET_WIDTH)
-				|| (positionY < panel.getMinY())
-				|| (positionY > panel.getMaxY() - Global.BULLET_HEIGHT)
+		if ((positionX < panel.getBounds().getMinX())
+				|| (positionX > panel.getBounds().getMaxX() - Global.BULLET_WIDTH)
+				|| (positionY < panel.getBounds().getMinY())
+				|| (positionY > panel.getBounds().getMaxY() - Global.BULLET_HEIGHT)
 				|| speed <= 0 ) {
 			this.is_live = false;
 			return false;

@@ -8,10 +8,10 @@
  */
 package Interface.Core;
 
-import java.awt.geom.*;
+import UI.Panel.ComponentPanel;
 
 public interface ICore {
-	public boolean move(Rectangle2D panel);
+	public boolean move(ComponentPanel panel);
 
 	public void setX(double x);
 

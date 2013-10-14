@@ -10,8 +10,10 @@ package Bean;
 
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
 import Interface.Core.ICore;
+import UI.Panel.ComponentPanel;
 import Util.Global;
 
 public class Tank implements ICore {
@@ -56,24 +58,66 @@ public class Tank implements ICore {
 	}
 
 	@Override
-	public boolean move(Rectangle2D panel){
+	public boolean move(ComponentPanel panel){
 		//If killed
 		if(this.blood <= 0){
 			this.is_live = false;
 			return false;
 		}
 		
+		//Check obstacle
+		ArrayList<Tank> tank_list = panel.getTankList();
+		int tank_list_size = tank_list.size();
+		boolean north_ok = true;
+		boolean south_ok = true;
+		boolean west_ok = true;
+		boolean east_ok = true;
+		for(int i=0;i<tank_list_size;i++){
+			if(tank_list.get(i).getID() == _ID){
+				continue;
+			}
+			if((positionX + speedX > tank_list.get(i).getX() - Global.TANK_WIDTH)
+					&& (positionX < tank_list.get(i).getX())
+					&& direction_east
+					&& (positionY > tank_list.get(i).getY() - Global.TANK_HEIGHT)
+					&& (positionY < tank_list.get(i).getY() + Global.TANK_HEIGHT)){
+				east_ok = false;
+			}
+			if((positionX - speedX < tank_list.get(i).getX() + Global.TANK_WIDTH) 
+					&& (positionX > tank_list.get(i).getX()) 
+					&& direction_west
+					&& (positionY > tank_list.get(i).getY() - Global.TANK_HEIGHT)
+					&& (positionY < tank_list.get(i).getY() + Global.TANK_HEIGHT)){
+				west_ok = false;
+			}
+			if((positionY + speedY > tank_list.get(i).getY() - Global.TANK_HEIGHT) 
+					&& (positionY < tank_list.get(i).getY()) 
+					&& direction_south
+					&& (positionX > tank_list.get(i).getX() - Global.TANK_WIDTH)
+					&& (positionX < tank_list.get(i).getX() + Global.TANK_WIDTH)){
+				south_ok = false;
+			}
+			if((positionY - speedY < tank_list.get(i).getY() + Global.TANK_HEIGHT)  
+					&& (positionY > tank_list.get(i).getY()) 
+					&& direction_north
+					&& (positionX > tank_list.get(i).getX() - Global.TANK_WIDTH)
+					&& (positionX < tank_list.get(i).getX() + Global.TANK_WIDTH)){
+				north_ok = false;
+			}
+		}
+		
+
 		//Move
-		if (direction_north) {
+		if (direction_north && north_ok) {
 			positionY -= speedY;
 		}
-		if (direction_south) {
+		if (direction_south && south_ok) {
 			positionY += speedY;
 		}
-		if (direction_west) {
+		if (direction_west && west_ok) {
 			positionX -= speedX;
 		}
-		if (direction_east) {
+		if (direction_east && east_ok) {
 			positionX += speedX;
 		}
 		if (sight_rotate_pos) {
@@ -82,63 +126,20 @@ public class Tank implements ICore {
 		if (sight_rotate_neg) {
 			angle -= Global.TANK_ANGLE_SPEED;
 		}
-
-		if(panel.getMaxX() != 0){
-			if (positionX < panel.getMinX()) {
-				positionX = (int) panel.getMinX();
-			}
-			if (positionX > panel.getMaxX() - Global.TANK_WIDTH) {
-				positionX = (int) panel.getMaxX() - Global.TANK_WIDTH;
-			}
-			if (positionY < panel.getMinY()) {
-				positionY = (int) panel.getMinY();
-			}
-			if (positionY > panel.getMaxY() - Global.TANK_HEIGHT) {
-				positionY = (int) panel.getMaxY() - Global.TANK_HEIGHT;
-			}
-		}
-		return true;
-	}
-	
-	public boolean moveBack(Rectangle2D panel){
-		//If killed
-		if(this.blood <= 0){
-			this.is_live = false;
-			return false;
-		}
 		
-		//Move
-		if (direction_north) {
-			positionY += speedY;
-		}
-		if (direction_south) {
-			positionY -= speedY;
-		}
-		if (direction_west) {
-			positionX += speedX;
-		}
-		if (direction_east) {
-			positionX -= speedX;
-		}
-		if (sight_rotate_pos) {
-			angle += Global.TANK_ANGLE_SPEED;
-		}
-		if (sight_rotate_neg) {
-			angle -= Global.TANK_ANGLE_SPEED;
-		}
-
-		if(panel.getMaxX() != 0){
-			if (positionX < panel.getMinX()) {
-				positionX = (int) panel.getMinX();
+		//Match to bounds
+		if(panel.getBounds().getMaxX() != 0){
+			if (positionX < panel.getBounds().getMinX()) {
+				positionX = (int) panel.getBounds().getMinX();
 			}
-			if (positionX > panel.getMaxX() - Global.TANK_WIDTH) {
-				positionX = (int) panel.getMaxX() - Global.TANK_WIDTH;
+			if (positionX > panel.getBounds().getMaxX() - Global.TANK_WIDTH) {
+				positionX = (int) panel.getBounds().getMaxX() - Global.TANK_WIDTH;
 			}
-			if (positionY < panel.getMinY()) {
-				positionY = (int) panel.getMinY();
+			if (positionY < panel.getBounds().getMinY()) {
+				positionY = (int) panel.getBounds().getMinY();
 			}
-			if (positionY > panel.getMaxY() - Global.TANK_HEIGHT) {
-				positionY = (int) panel.getMaxY() - Global.TANK_HEIGHT;
+			if (positionY > panel.getBounds().getMaxY() - Global.TANK_HEIGHT) {
+				positionY = (int) panel.getBounds().getMaxY() - Global.TANK_HEIGHT;
 			}
 		}
 		return true;

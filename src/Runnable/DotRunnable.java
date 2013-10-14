@@ -8,18 +8,18 @@
  */
 package Runnable;
 
-import java.awt.Component;
 import java.util.List;
 
 import Bean.Dot;
+import UI.Panel.ComponentPanel;
 import Util.Global;
 
 public class DotRunnable implements Runnable{
 
 	private List<Dot> dots;
-	private Component component;
+	private ComponentPanel component;
 
-	public DotRunnable(List<Dot> dots, Component component) {
+	public DotRunnable(List<Dot> dots, ComponentPanel component) {
 		this.dots = dots;
 		this.component = component;
 	}
@@ -31,7 +31,7 @@ public class DotRunnable implements Runnable{
 			while (!is_all_dead) {
 				int dead_number = 0;
 				for(Dot dot : dots){
-					if(!dot.move(component.getBounds())){
+					if(!dot.move(component)){
 						dead_number++;
 					}
 				}
