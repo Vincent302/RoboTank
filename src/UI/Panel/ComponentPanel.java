@@ -254,9 +254,26 @@ L1:		for(int i=0;i<Global.ROBOTANK_NUMBER;i++){
 				i--;
 				continue;
 			}
-			g2.setColor(Color.GRAY);
-			g2.fill(tank_list.get(i).getShape());
-			g2.draw(tank_list.get(i).getSight());
+			//Draw body
+			g2.drawImage(tank_list.get(i).getShape(), 
+					(int)tank_list.get(i).getX(), 
+					(int)tank_list.get(i).getY(), 
+					Global.TANK_WIDTH, 
+					Global.TANK_HEIGHT, 
+					null);
+			//Draw sight
+			g2.rotate(-tank_list.get(i).getAngle(), 
+					(int)tank_list.get(i).getX() + Global.TANK_WIDTH / 2, 
+					(int)tank_list.get(i).getY() + Global.TANK_HEIGHT / 2);
+			g2.drawImage(tank_list.get(i).getSight(), 
+					(int)tank_list.get(i).getX() - 3, 
+					(int)tank_list.get(i).getY() - 3, 
+					Global.SIGHT_WIDTH, 
+					Global.SIGHT_HEIGHT, 
+					null);
+			g2.rotate(tank_list.get(i).getAngle(), 
+					(int)tank_list.get(i).getX() + Global.TANK_WIDTH / 2, 
+					(int)tank_list.get(i).getY() + Global.TANK_HEIGHT / 2);
 			//Draw blood
 			g2.setColor(new Color(150, 0, 0));
 			g2.fill(tank_list.get(i).getBloodBar());

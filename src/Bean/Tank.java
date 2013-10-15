@@ -8,6 +8,8 @@
  */
 package Bean;
 
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -256,9 +258,9 @@ public class Tank implements ICore {
 		}
 		this.robert_move_counter++;
 	}
-	public Rectangle2D getShape() {
-		Rectangle2D tank_body = new Rectangle2D.Double(positionX, positionY,
-				Global.TANK_WIDTH, Global.TANK_HEIGHT);
+	
+	public Image getShape() {
+		Image tank_body = Global.TANK_IMAGE;
 		return tank_body;
 	}
 	
@@ -271,14 +273,9 @@ public class Tank implements ICore {
 		return blood_bar;
 	}
 
-	public Line2D getSight(){
-		Line2D sight_line = new Line2D.Double(
-				positionX + Global.TANK_WIDTH / 2, 
-				positionY + Global.TANK_HEIGHT / 2, 
-				positionX + Global.TANK_WIDTH / 2 + 100 * Math.cos(angle), 
-				positionY + Global.TANK_HEIGHT / 2 - 100 * Math.sin(angle));
-
-		return sight_line;
+	public Image getSight(){
+		Image sight = Global.SIGHT_IMAGE;
+		return sight;
 	}
 	
 	public Bullet fire() {

@@ -8,6 +8,9 @@
  */
 package Util;
 
+import java.awt.Image;
+import java.awt.Toolkit;
+
 public class Global {
 
 	public static int dX = 1;
@@ -25,8 +28,10 @@ public class Global {
 	public static final int COMPONENT_PANEL_HEIGHT = 600;
 	public static final int BULLET_WIDTH = 5;
 	public static final int BULLET_HEIGHT = 5;
-	public static final int TANK_WIDTH = 30;
-	public static final int TANK_HEIGHT = 30;
+	public static final int TANK_WIDTH = 18;
+	public static final int TANK_HEIGHT = 18;
+	public static final int SIGHT_WIDTH = 24;
+	public static final int SIGHT_HEIGHT = 24;
 
 	public static final double BULLET_SPEED_X = 5;
 	public static final double BULLET_SPEED_Y = 5;
@@ -37,26 +42,30 @@ public class Global {
 	public static final double TANK_SPEED_Y = 0.1;
 	public static final double MAIN_TANK_SPEED_X = 0.3;
 	public static final double MAIN_TANK_SPEED_Y = 0.3;
-	public static final double TANK_ANGLE_SPEED = 0.1 * Math.PI / 180;
+	public static final double TANK_ANGLE_SPEED = Math.toRadians(0.1);
 	
 	public static final int EXPLODE_DOT_NUMBER = 100;
 	public static final int EXPLODE_ROUND = 2;
 
-	public static final double DEFAULT_SIGHT_ANGLE = 0 * Math.PI / 180;
-	public static final double DEFAULT_ROBERT_FIRE_FANGLE = 20 * Math.PI / 180;
+	public static final double DEFAULT_SIGHT_ANGLE = Math.toRadians(0);
+	public static final double DEFAULT_ROBERT_FIRE_FANGLE = Math.toRadians(20);
 	
-	public static final int DEFAULT_BLOOD = 100;
-	public static final int DEFAULT_POWER = 7;
+	public static final int DEFAULT_BLOOD = 1000;
+	public static final int DEFAULT_POWER = 5;
 	
 	public static final int ROBOTANK_NUMBER = 10;
 	
 	//Blood
 	public static final int BLOODBAR_ABOVE = 5;
 	public static final int BLOODBAR_HEIGHT = 2;
-	public static final int BLOODBAR_WIDTH = 30;
+	public static final int BLOODBAR_WIDTH = 18;
 	
 	//Deviation
 	public static final double DEVIATION = 2.0;
 	public static final int ROBERT_MOVE_COUNTER = 1000;
+	
+	//Image
+	public static final Image TANK_IMAGE = Toolkit.getDefaultToolkit().getImage("image/tank.png");
+	public static final Image SIGHT_IMAGE = Toolkit.getDefaultToolkit().getImage("image/sight.png");
 
 }
