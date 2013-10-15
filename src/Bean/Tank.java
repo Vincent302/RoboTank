@@ -37,6 +37,8 @@ public class Tank implements ICore {
 	private boolean direction_east;
 	private boolean sight_rotate_pos;
 	private boolean sight_rotate_neg;
+	
+	private int robert_move_counter;
 
 	public Tank(double x, double y, double sx, double sy, double angle, int blood, int power, boolean is_robert){
 		this._ID = Math.random();
@@ -57,6 +59,8 @@ public class Tank implements ICore {
 		this.direction_east = false;
 		this.sight_rotate_pos = false;
 		this.sight_rotate_neg = false;
+		
+		this.robert_move_counter = Global.ROBERT_MOVE_COUNTER;
 	}
 
 	@Override
@@ -67,56 +71,9 @@ public class Tank implements ICore {
 			return false;
 		}
 		
-		//Robert move
+		//Robert behavior
 		if(this.is_robert){
-			if(panel.getMainTank().isLive()){
-				double main_tank_position_x = panel.getMainTank().getX();
-				double main_tank_position_y = panel.getMainTank().getY();
-				boolean pos_x = main_tank_position_x >= this.positionX;
-				boolean pos_y = main_tank_position_y <= this.positionY;
-				double des_angle = 0;
-				
-				if(pos_x && pos_y){
-					des_angle = Math.atan((this.positionY - main_tank_position_y) / (main_tank_position_x - this.positionX));
-				}else if(!pos_x && pos_y){
-					des_angle = Math.PI - Math.atan((this.positionY - main_tank_position_y) / -(main_tank_position_x - this.positionX));
-				}else if(!pos_x && !pos_y){
-					des_angle = Math.atan((this.positionY - main_tank_position_y) / (main_tank_position_x - this.positionX)) + Math.PI;
-				}else if(pos_x && !pos_y){
-					des_angle = 2 * Math.PI - Math.atan(-(this.positionY - main_tank_position_y) / (main_tank_position_x - this.positionX));
-				}
-				
-				des_angle -= this.angle;
-				
-				if(des_angle > 0){
-					if(des_angle > Math.PI){
-						sight_rotate_pos = false;
-						sight_rotate_neg = true;
-					}else{
-						sight_rotate_pos = true;
-						sight_rotate_neg = false;
-					}
-				}else{
-					if(des_angle < -Math.PI){
-						sight_rotate_pos = true;
-						sight_rotate_neg = false;
-					}else{
-						sight_rotate_pos = false;
-						sight_rotate_neg = true;
-					}
-				}
-				
-				
-				if(Math.abs(des_angle) < Global.DEFAULT_ROBERT_FIRE_FANGLE){
-					this.is_on_fire = true;
-				}else{
-					this.is_on_fire = false;
-				}
-			}else{
-				this.is_on_fire = false;
-				sight_rotate_pos = false;
-				sight_rotate_neg = false;
-			}
+			robertBehavior(panel);
 		}
 		
 		//Check obstacle
@@ -159,7 +116,6 @@ public class Tank implements ICore {
 				north_ok = false;
 			}
 		}
-		
 
 		//Move
 		if (direction_north && north_ok) {
@@ -205,6 +161,101 @@ public class Tank implements ICore {
 		return true;
 	}
 
+	private void robertBehavior(ComponentPanel panel){
+		if(panel.getMainTank().isLive()){
+			//Fire automation
+			double main_tank_position_x = panel.getMainTank().getX();
+			double main_tank_position_y = panel.getMainTank().getY();
+			boolean pos_x = main_tank_position_x >= this.positionX;
+			boolean pos_y = main_tank_position_y <= this.positionY;
+			double des_angle = 0;
+			
+			if(pos_x && pos_y){
+				des_angle = Math.atan((this.positionY - main_tank_position_y) / (main_tank_position_x - this.positionX));
+			}else if(!pos_x && pos_y){
+				des_angle = Math.PI - Math.atan((this.positionY - main_tank_position_y) / -(main_tank_position_x - this.positionX));
+			}else if(!pos_x && !pos_y){
+				des_angle = Math.atan((this.positionY - main_tank_position_y) / (main_tank_position_x - this.positionX)) + Math.PI;
+			}else if(pos_x && !pos_y){
+				des_angle = 2 * Math.PI - Math.atan(-(this.positionY - main_tank_position_y) / (main_tank_position_x - this.positionX));
+			}
+			des_angle -= this.angle;
+			if(des_angle > 0){
+				if(des_angle > Math.PI){
+					sight_rotate_pos = false;
+					sight_rotate_neg = true;
+				}else{
+					sight_rotate_pos = true;
+					sight_rotate_neg = false;
+				}
+			}else{
+				if(des_angle < -Math.PI){
+					sight_rotate_pos = true;
+					sight_rotate_neg = false;
+				}else{
+					sight_rotate_pos = false;
+					sight_rotate_neg = true;
+				}
+			}
+			if(Math.abs(des_angle) < Global.DEFAULT_ROBERT_FIRE_FANGLE){
+				this.is_on_fire = true;
+			}else{
+				this.is_on_fire = false;
+			}
+			
+			//TODO:
+			//Move automation
+			if(this.robert_move_counter > Global.ROBERT_MOVE_COUNTER){
+				this.robert_move_counter -= Global.ROBERT_MOVE_COUNTER;
+				
+				double random_number1 = Math.random();
+				double random_number2 = Math.random();
+				if(random_number1 < 0.75){
+					if(pos_x){
+						this.direction_west = false;
+						this.direction_east = true;
+					}else{
+						this.direction_west = true;
+						this.direction_east = false;
+					}
+				}else{
+					if(pos_x){
+						this.direction_west = true;
+						this.direction_east = false;
+					}else{
+						this.direction_west = false;
+						this.direction_east = true;
+					}
+				}
+				if(random_number2 < 0.75){
+					if(pos_y){
+						this.direction_north = true;
+						this.direction_south = false;
+					}else{
+						this.direction_north = false;
+						this.direction_south = true;
+					}
+				}else{
+					if(pos_y){
+						this.direction_north = false;
+						this.direction_south = true;
+					}else{
+						this.direction_north = true;
+						this.direction_south = false;
+					}
+				}
+			}
+		}else{
+			this.is_on_fire = false;
+			this.sight_rotate_pos = false;
+			this.sight_rotate_neg = false;
+			this.direction_north = false;
+			this.direction_south = false;
+			this.direction_west = false;
+			this.direction_east = false;
+		}
+		this.robert_move_counter++;
+	}
 	public Rectangle2D getShape() {
 		Rectangle2D tank_body = new Rectangle2D.Double(positionX, positionY,
 				Global.TANK_WIDTH, Global.TANK_HEIGHT);
@@ -268,13 +319,10 @@ public class Tank implements ICore {
 
 	@Override
 	public void setSpeed(double speed) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public double getSpeed() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 

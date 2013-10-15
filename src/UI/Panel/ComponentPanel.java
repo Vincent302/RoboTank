@@ -68,9 +68,13 @@ public class ComponentPanel extends JPanel {
 	}
 
 	private void initMainTank(){
-		this.main_tank = new Tank(400, 300, Global.TANK_SPEED_X,
-				Global.TANK_SPEED_Y, Global.DEFAULT_SIGHT_ANGLE,
-				Global.DEFAULT_BLOOD, Global.DEFAULT_POWER,
+		this.main_tank = new Tank(400, 
+				300, 
+				Global.MAIN_TANK_SPEED_X,
+				Global.MAIN_TANK_SPEED_Y, 
+				Global.DEFAULT_SIGHT_ANGLE,
+				Global.DEFAULT_BLOOD, 
+				Global.DEFAULT_POWER,
 				false);
 		TankRunnable main_tank_runnable = new TankRunnable(main_tank, this);
 		Thread main_tank_thread = new Thread(main_tank_runnable);

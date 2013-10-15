@@ -33,20 +33,22 @@ public class Global {
 	public static final double BULLET_SPEED = 0.5;
 	public static final double EXPLODE_SPEED = 1;
 	public static final double EXPLODE_SPEED_ACCELERATE = -0.025;
-	public static final double TANK_SPEED_X = 0.3;
-	public static final double TANK_SPEED_Y = 0.3;
+	public static final double TANK_SPEED_X = 0.1;
+	public static final double TANK_SPEED_Y = 0.1;
+	public static final double MAIN_TANK_SPEED_X = 0.3;
+	public static final double MAIN_TANK_SPEED_Y = 0.3;
 	public static final double TANK_ANGLE_SPEED = 0.1 * Math.PI / 180;
 	
 	public static final int EXPLODE_DOT_NUMBER = 100;
 	public static final int EXPLODE_ROUND = 2;
 
 	public static final double DEFAULT_SIGHT_ANGLE = 0 * Math.PI / 180;
-	public static final double DEFAULT_ROBERT_FIRE_FANGLE = 30 * Math.PI / 180;
+	public static final double DEFAULT_ROBERT_FIRE_FANGLE = 20 * Math.PI / 180;
 	
 	public static final int DEFAULT_BLOOD = 100;
-	public static final int DEFAULT_POWER = 10;
+	public static final int DEFAULT_POWER = 7;
 	
-	public static final int ROBOTANK_NUMBER = 5;
+	public static final int ROBOTANK_NUMBER = 10;
 	
 	//Blood
 	public static final int BLOODBAR_ABOVE = 5;
@@ -55,5 +57,6 @@ public class Global {
 	
 	//Deviation
 	public static final double DEVIATION = 2.0;
+	public static final int ROBERT_MOVE_COUNTER = 1000;
 
 }
