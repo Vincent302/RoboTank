@@ -34,7 +34,6 @@ public class ComponentPanel extends JPanel {
 	private ArrayList<Tank> tank_list;
 	private ArrayList<Dot> dot_list;
 	private Tank main_tank;
-	private Thread main_fire_thread;
 
 	public ComponentPanel(){
 		this.bullet_list = new ArrayList<Bullet>();
@@ -255,12 +254,22 @@ L1:		for(int i=0;i<Global.ROBOTANK_NUMBER;i++){
 				continue;
 			}
 			//Draw body
+			/*
+			g2.rotate(-tank_list.get(i).getBodyAngle(), 
+					(int)tank_list.get(i).getX() + Global.TANK_WIDTH / 2, 
+					(int)tank_list.get(i).getY() + Global.TANK_HEIGHT / 2);
+		    */
 			g2.drawImage(tank_list.get(i).getShape(), 
 					(int)tank_list.get(i).getX(), 
 					(int)tank_list.get(i).getY(), 
 					Global.TANK_WIDTH, 
 					Global.TANK_HEIGHT, 
 					null);
+			/*
+			g2.rotate(tank_list.get(i).getBodyAngle(), 
+					(int)tank_list.get(i).getX() + Global.TANK_WIDTH / 2, 
+					(int)tank_list.get(i).getY() + Global.TANK_HEIGHT / 2);
+			*/
 			//Draw sight
 			g2.rotate(-tank_list.get(i).getAngle(), 
 					(int)tank_list.get(i).getX() + Global.TANK_WIDTH / 2, 
@@ -278,7 +287,6 @@ L1:		for(int i=0;i<Global.ROBOTANK_NUMBER;i++){
 			g2.setColor(new Color(150, 0, 0));
 			g2.fill(tank_list.get(i).getBloodBar());
 		}
-		
 		//Draw exploding dot
 		g2.setColor(Color.YELLOW);
 		for (int i = 0; i < dot_list.size(); i++){

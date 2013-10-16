@@ -9,8 +9,6 @@
 package Bean;
 
 import java.awt.Image;
-import java.awt.Toolkit;
-import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
@@ -288,7 +286,7 @@ public class Tank implements ICore {
 				_ID);
 		return bullet;
 	}
-
+	
 	@Override
 	public double getID() {
 		return this._ID;
