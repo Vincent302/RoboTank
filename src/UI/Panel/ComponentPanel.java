@@ -9,10 +9,13 @@
 package UI.Panel;
 
 import java.awt.Color;
+import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
@@ -230,6 +233,42 @@ L1:		for(int i=0;i<Global.ROBOTANK_NUMBER;i++){
 	public Tank getMainTank(){
 		return this.main_tank;
 	}
+	
+	private void drawRadar(Graphics2D g2){
+		g2.setPaint(new GradientPaint(
+				(float) main_tank.getX() + Global.TANK_WIDTH / 2, 
+				(float) main_tank.getY() + Global.TANK_HEIGHT / 2, 
+				Color.ORANGE, 
+				(float) (main_tank.getX() + Global.TANK_WIDTH / 2 + 160 * Math.cos(main_tank.getAngle())), 
+				(float) (main_tank.getY() + Global.TANK_HEIGHT / 2 - 160 * Math.sin(main_tank.getAngle())), 
+				new Color(255, 128, 0, 0)));
+		g2.draw(new Line2D.Double(
+				main_tank.getX() + Global.TANK_WIDTH / 2, 
+				main_tank.getY() + Global.TANK_HEIGHT / 2,
+				main_tank.getX() + Global.TANK_WIDTH / 2 + 160 * Math.cos(main_tank.getAngle()), 
+				main_tank.getY() + Global.TANK_HEIGHT / 2 - 160 * Math.sin(main_tank.getAngle())));
+	}
+	
+	private void drawSight(Graphics2D g2, double x, double y, double angle){
+		g2.setColor(new Color(210, 140, 0));
+		g2.fill(new Ellipse2D.Double(
+				x + 2, 
+				y + 3,
+                12,
+                12));
+		g2.setColor(new Color(225, 187, 28));
+		g2.fill(new Ellipse2D.Double(
+				x + 5, 
+				y + 6,
+                6,
+                6));
+		g2.setColor(new Color(215, 162, 0));
+		g2.draw(new Line2D.Double(
+				x + Global.TANK_WIDTH / 2, 
+				y + Global.TANK_HEIGHT / 2,
+				x + Global.TANK_WIDTH / 2 + 15 * Math.cos(angle), 
+				y + Global.TANK_HEIGHT / 2 - 15 * Math.sin(angle)));
+	}
 
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
@@ -237,63 +276,53 @@ L1:		for(int i=0;i<Global.ROBOTANK_NUMBER;i++){
 
 		// Draw bullets
 		g2.setColor(Color.GRAY);
-		for (int i = 0; i < bullet_list.size(); i++){
-			if (!bullet_list.get(i).isLive()){
+		int bullet_number = bullet_list.size();
+		for (int i = 0; i < bullet_number; i++){
+			if (bullet_list.get(i) != null && !bullet_list.get(i).isLive()){
 				removeBullet(bullet_list.get(i));
 				i--;
+				bullet_number--;
 				continue;
 			}
 			g2.fill(bullet_list.get(i).getShape());
 		}
 		
 		// Draw tanks
-		for (int i = 0; i < tank_list.size(); i++){
+		int tank_number = tank_list.size();
+		for (int i = 0; i < tank_number; i++){
 			if (!tank_list.get(i).isLive()){
 				removeTank(tank_list.get(i));
 				i--;
+				tank_number--;
 				continue;
 			}
 			//Draw body
-			/*
-			g2.rotate(-tank_list.get(i).getBodyAngle(), 
-					(int)tank_list.get(i).getX() + Global.TANK_WIDTH / 2, 
-					(int)tank_list.get(i).getY() + Global.TANK_HEIGHT / 2);
-		    */
 			g2.drawImage(tank_list.get(i).getShape(), 
 					(int)tank_list.get(i).getX(), 
 					(int)tank_list.get(i).getY(), 
 					Global.TANK_WIDTH, 
 					Global.TANK_HEIGHT, 
 					null);
-			/*
-			g2.rotate(tank_list.get(i).getBodyAngle(), 
-					(int)tank_list.get(i).getX() + Global.TANK_WIDTH / 2, 
-					(int)tank_list.get(i).getY() + Global.TANK_HEIGHT / 2);
-			*/
 			//Draw sight
-			g2.rotate(-tank_list.get(i).getAngle(), 
-					(int)tank_list.get(i).getX() + Global.TANK_WIDTH / 2, 
-					(int)tank_list.get(i).getY() + Global.TANK_HEIGHT / 2);
-			g2.drawImage(tank_list.get(i).getSight(), 
-					(int)tank_list.get(i).getX() - 3, 
-					(int)tank_list.get(i).getY() - 3, 
-					Global.SIGHT_WIDTH, 
-					Global.SIGHT_HEIGHT, 
-					null);
-			g2.rotate(tank_list.get(i).getAngle(), 
-					(int)tank_list.get(i).getX() + Global.TANK_WIDTH / 2, 
-					(int)tank_list.get(i).getY() + Global.TANK_HEIGHT / 2);
+			drawSight(g2, tank_list.get(i).getX(), tank_list.get(i).getY(), tank_list.get(i).getAngle());
 			//Draw blood
 			g2.setColor(new Color(150, 0, 0));
 			g2.fill(tank_list.get(i).getBloodBar());
 		}
+		if(main_tank.isLive()){
+			drawRadar(g2);
+		}
+		
+		
 		//Draw exploding dot
 		g2.setColor(Color.YELLOW);
-		for (int i = 0; i < dot_list.size(); i++){
+		int dot_number = dot_list.size();
+		for (int i = 0; i < dot_number; i++){
 			if(dot_list.get(i) != null){
 				if (!dot_list.get(i).isLive()){
 					removeDot(dot_list.get(i));
 					i--;
+					dot_number--;
 					continue;
 				}
 				g2.draw(dot_list.get(i).getShape());

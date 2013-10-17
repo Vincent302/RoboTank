@@ -17,8 +17,8 @@ public class Global {
 	public static int dY = 1;
 
 	public static final int DELAY = 1;
-	public static final int REPAINT_DELAY = 10;
-	public static final int FIRE_DELAY = 300;
+	public static final int REPAINT_DELAY = 1;
+	public static final int FIRE_DELAY = 50;
 	public static final int DOT_DELAY = 5;
 	public static final int EXPLODE_ROUND_DELAY = 80;
 
@@ -44,16 +44,16 @@ public class Global {
 	public static final double MAIN_TANK_SPEED_Y = 0.3;
 	public static final double TANK_ANGLE_SPEED = Math.toRadians(0.1);
 	
-	public static final int EXPLODE_DOT_NUMBER = 100;
+	public static final int EXPLODE_DOT_NUMBER = 1000;
 	public static final int EXPLODE_ROUND = 2;
 
 	public static final double DEFAULT_SIGHT_ANGLE = Math.toRadians(0);
 	public static final double DEFAULT_ROBERT_FIRE_FANGLE = Math.toRadians(20);
 	
-	public static final int DEFAULT_BLOOD = 10000;
+	public static final int DEFAULT_BLOOD = 100;
 	public static final int DEFAULT_POWER = 5;
 	
-	public static final int ROBOTANK_NUMBER = 15;
+	public static final int ROBOTANK_NUMBER = 5;
 	
 	//Blood
 	public static final int BLOODBAR_ABOVE = 5;
