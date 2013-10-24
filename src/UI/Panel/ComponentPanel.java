@@ -202,7 +202,7 @@ L1:		for(int i=0;i<Global.ROBOTANK_NUMBER;i++){
 		});
 	}
 
-	public void addBullet(Bullet bullet) {
+	public synchronized void addBullet(Bullet bullet) {
 		this.bullet_list.add(bullet);
 	}
 
